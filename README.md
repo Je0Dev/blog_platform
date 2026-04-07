@@ -3,7 +3,7 @@
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 ## Demo
-Check out the live demo: https://blog-platform-demo.vercel.app/
+Check out the live demo: https://je0dev.github.io/blog_platform/
 
 Currently, two official plugins are available:
 
