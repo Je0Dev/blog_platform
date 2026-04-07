@@ -1,111 +1,75 @@
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, TrendingUp } from 'lucide-react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import TechCard from '../components/TechCard';
-import TagCloud from '../components/TagCloud';
-import Gamification from '../components/Gamification';
 import { posts } from '../data/posts';
-
-gsap.registerPlugin(ScrollTrigger);
+import TagCloud from '../components/TagCloud';
 
 const RecentBlogs = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   const filteredPosts = selectedTag
     ? posts.filter(post => post.tags.some(tag => tag.toLowerCase() === selectedTag.toLowerCase()))
     : posts;
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(headingRef.current,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section
-      id="blog"
-      ref={sectionRef}
-      className="relative bg-tech-bg py-24 dot-pattern"
-    >
-      {/* Section Header */}
-      <div ref={headingRef} className="px-6 lg:px-12 mb-12">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="w-5 h-5 text-tech-cyan" />
-              <span className="font-mono text-sm text-tech-cyan uppercase tracking-wider">Latest</span>
-            </div>
-            <h2 className="font-oswald text-4xl sm:text-5xl lg:text-6xl font-bold">
-              Recent <span className="text-transparent bg-clip-text bg-gradient-to-r from-tech-cyan to-tech-purple">Articles</span>
-            </h2>
-          </div>
-          <Link 
-            to="/tags"
-            className="group flex items-center gap-2 font-mono text-sm text-tech-cyan hover:underline self-start lg:self-auto"
-          >
-            View all articles
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </div>
-
-      {/* Content Grid */}
-      <div className="px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Main Content - Blog Cards */}
-          <div className="lg:col-span-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredPosts.map((post, index) => (
-                <TechCard
-                  key={post.id}
-                  id={post.slug}
-                  title={post.title}
-                  excerpt={post.excerpt}
-                  date={post.date}
-                  readTime={post.readTime}
-                  tags={post.tags}
-                  image={post.image}
-                  color={post.color}
-                  index={index}
-                />
-              ))}
-            </div>
-
-            {filteredPosts.length === 0 && (
-              <div className="text-center py-16">
-                <p className="text-gray-500 font-mono">No articles found with tag #{selectedTag}</p>
+    <section className="pt-16 pb-12">
+      <div className="max-w-prose mx-auto px-6">
+        <h2 className="font-serif text-3xl font-bold text-cream mb-4">
+          Recent Writing
+        </h2>
+        <p className="font-sans text-earth-tan mb-8">
+          Thoughts on technology, craftsmanship, and the practice of building.
+        </p>
+        
+        <TagCloud onTagSelect={setSelectedTag} selectedTag={selectedTag} />
+        
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mt-8">
+          {filteredPosts.map((post) => (
+            <Link
+              key={post.id}
+              to={`/blog/${post.slug}`}
+              className="group block bg-deep-forest border border-moss rounded-lg overflow-hidden hover:bg-deep-sage transition-colors duration-200"
+            >
+              <div className="p-6">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {post.tags.map((tag) => (
+                    <Link
+                      key={tag}
+                      to={`/tags/${encodeURIComponent(tag)}`}
+                      className="px-2 py-0.5 text-xs font-sans bg-deep-olive border border-moss rounded-full hover:bg-olive-light hover:text-deep-olive transition-colors no-underline"
+                    >
+                      #{tag}
+                    </Link>
+                  ))}
+                </div>
+                
+                <h3 className="font-serif text-xl font-bold text-cream mb-2 line-clamp-2 group-hover:text-olive-light transition-colors">
+                  {post.title}
+                </h3>
+                
+                <p className="font-sans text-earth-tan text-sm mb-4 line-clamp-3">
+                  {post.excerpt}
+                </p>
+                
+                <div className="flex items-center justify-between text-xs font-sans text-earth-muted">
+                  <span>{post.date}</span>
+                  <span>{post.readTime} read</span>
+                </div>
               </div>
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Gamification */}
-            <Gamification />
-
-            {/* Tag Cloud */}
-            <TagCloud onTagSelect={setSelectedTag} selectedTag={selectedTag} />
-          </div>
+            </Link>
+          ))}
         </div>
+        
+        {filteredPosts.length === 0 && (
+          <div className="col-span-full text-center py-12">
+            <p className="text-earth-tan">No posts found for this tag.</p>
+            <Link 
+              to="/tags"
+              className="inline-flex items-center justify-center mt-4 px-4 py-2 border border-moss text-cream font-sans hover:bg-deep-sage transition-colors no-underline"
+            >
+              Browse all tags
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

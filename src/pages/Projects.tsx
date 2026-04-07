@@ -1,310 +1,357 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  ArrowLeft, 
-  ExternalLink, 
-  Github, 
-  Star,
-  Code2,
-  Cpu,
-  Globe,
-  Database
-} from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
+import { ArrowLeft, Github, Star, ArrowRight, ArrowUp, ExternalLink } from 'lucide-react';
 
 interface Project {
   id: string;
   name: string;
   description: string;
-  longDescription: string;
+  longDescription?: string;
   tags: string[];
   githubUrl: string;
-  liveUrl?: string;
   stars: number;
   language: string;
-  color: string;
-  icon: React.ElementType;
-  features: string[];
+  giphyUrl?: string;
+  illustrationUrl?: string;
+  features?: string[];
+  relatedTags?: string[];
 }
+
+const oldBookImages = [
+  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
+];
 
 const projects: Project[] = [
   {
     id: '1',
-    name: 'ts-pattern-matcher',
-    description: 'Pattern matching library for TypeScript',
-    longDescription: 'A powerful pattern matching library for TypeScript that brings functional programming patterns to your codebase. Supports exhaustive matching, guards, and nested patterns.',
-    tags: ['TypeScript', 'Functional Programming'],
-    githubUrl: 'https://github.com/alex/ts-pattern-matcher',
-    liveUrl: 'https://ts-pattern-matcher.dev',
-    stars: 1247,
-    language: 'TypeScript',
-    color: '#3178c6',
-    icon: Code2,
-    features: [
-      'Exhaustive pattern matching',
-      'Type inference support',
-      'Guard clauses',
-      'Nested pattern support',
-    ],
+    name: 'esp32OffboardTimerSensor',
+    description: 'Environmental sensor with configurable intervals.',
+    longDescription: 'Built for IoT projects requiring periodic data collection. Uses FreeRTOS for task scheduling and handles sensor calibration automatically.',
+    tags: ['ESP32', 'C++', 'Embedded'],
+    githubUrl: 'https://github.com/Je0Dev/esp32OffboardTimerSensor',
+    stars: 1,
+    language: 'C++',
+    illustrationUrl: oldBookImages[0],
+    features: ['FreeRTOS integration', 'I2C/SPI support', 'Deep sleep modes'],
+    relatedTags: ['iot', 'hardware'],
   },
   {
     id: '2',
-    name: 'chat-app-realtime',
-    description: 'Real-time chat with WebSockets',
-    longDescription: 'A full-featured real-time chat application built with WebSockets, featuring rooms, private messages, file sharing, and end-to-end encryption.',
-    tags: ['Node.js', 'WebSockets', 'React'],
-    githubUrl: 'https://github.com/alex/chat-app-realtime',
-    liveUrl: 'https://chat-demo.alex.dev',
-    stars: 892,
-    language: 'JavaScript',
-    color: '#339933',
-    icon: Globe,
-    features: [
-      'Real-time messaging',
-      'Private and group rooms',
-      'File sharing',
-      'End-to-end encryption',
-    ],
+    name: 'ImbdCloneApp',
+    description: 'Movie database with REST API.',
+    longDescription: 'A full-stack application demonstrating data modeling patterns. Features pagination, filtering, and relationship management between movies, actors, and directors.',
+    tags: ['Java', 'API', 'Learning'],
+    githubUrl: 'https://github.com/Je0Dev/ImdbCloneApp',
+    stars: 1,
+    language: 'Java',
+    illustrationUrl: oldBookImages[1],
+    features: ['REST API design', 'Relational modeling', 'JPA/Hibernate'],
+    relatedTags: ['data modeling', 'api design'],
   },
   {
     id: '3',
-    name: 'wasm-image-processor',
-    description: 'High-performance image processing',
-    longDescription: 'WebAssembly-powered image processing library written in Rust. Processes images at near-native speed directly in the browser.',
-    tags: ['Rust', 'WebAssembly', 'Performance'],
-    githubUrl: 'https://github.com/alex/wasm-image-processor',
-    liveUrl: 'https://wasm-image.alex.dev',
-    stars: 2156,
-    language: 'Rust',
-    color: '#dea584',
-    icon: Cpu,
-    features: [
-      'Near-native performance',
-      'Multiple filter effects',
-      'Batch processing',
-      'Zero dependencies',
-    ],
+    name: 'cli_atm_system',
+    description: 'ATM simulation with account management.',
+    longDescription: 'Practicing C fundamentals through a realistic banking scenario. Implements file-based persistence and demonstrates clean architecture in a CLI context.',
+    tags: ['C', 'CLI', 'Learning'],
+    githubUrl: 'https://github.com/Je0Dev/cli_atm_system',
+    stars: 1,
+    language: 'C',
+    illustrationUrl: oldBookImages[2],
+    features: ['File I/O', 'Account transactions', 'Input validation'],
+    relatedTags: ['software design'],
   },
   {
     id: '4',
-    name: 'go-worker-pool',
-    description: 'Flexible worker pool in Go',
-    longDescription: 'A production-ready worker pool implementation for Go with support for dynamic scaling, priority queues, and graceful shutdown.',
-    tags: ['Go', 'Concurrency', 'Backend'],
-    githubUrl: 'https://github.com/alex/go-worker-pool',
-    stars: 743,
-    language: 'Go',
-    color: '#00add8',
-    icon: Database,
-    features: [
-      'Dynamic scaling',
-      'Priority queues',
-      'Graceful shutdown',
-      'Metrics and monitoring',
-    ],
+    name: 'cli_student_database',
+    description: 'Student records with search and CRUD.',
+    longDescription: 'A practical exercise in data structures and file handling. Supports searching by name, ID, or grade, with sorted output options.',
+    tags: ['C', 'CLI', 'Database'],
+    githubUrl: 'https://github.com/Je0Dev/cli_student_database_management_system',
+    stars: 1,
+    language: 'C',
+    illustrationUrl: oldBookImages[3],
+    features: ['Binary file storage', 'Quick search', 'Report generation'],
+    relatedTags: ['database', 'data modeling'],
   },
   {
     id: '5',
-    name: 'nextjs-rsc-demo',
-    description: 'React Server Components demo',
-    longDescription: 'A comprehensive demo application showcasing React Server Components with Next.js App Router, featuring streaming, suspense, and server actions.',
-    tags: ['React', 'Next.js', 'Server Components'],
-    githubUrl: 'https://github.com/alex/nextjs-rsc-demo',
-    liveUrl: 'https://rsc-demo.alex.dev',
-    stars: 1567,
-    language: 'TypeScript',
-    color: '#61dafb',
-    icon: Code2,
-    features: [
-      'Server Components patterns',
-      'Streaming SSR',
-      'Server Actions',
-      'Caching strategies',
-    ],
+    name: 'cli_task_manager',
+    description: 'Task tracker with full CRUD operations.',
+    longDescription: 'Built to understand CLI design patterns and data persistence. Supports priorities, due dates, and filtering by status.',
+    tags: ['C', 'CLI', 'Productivity'],
+    githubUrl: 'https://github.com/Je0Dev/cli_task_manager_system',
+    stars: 1,
+    language: 'C',
+    illustrationUrl: oldBookImages[4],
+    features: ['JSON export', 'Priority levels', 'Due date tracking'],
+    relatedTags: ['software design', 'craftsmanship'],
   },
   {
     id: '6',
-    name: 'data-analysis-toolkit',
-    description: 'Pandas utilities collection',
-    longDescription: 'A collection of utilities and helper functions for data analysis with Pandas, including data validation, transformation pipelines, and visualization helpers.',
-    tags: ['Python', 'Pandas', 'Data Science'],
-    githubUrl: 'https://github.com/alex/data-analysis-toolkit',
-    stars: 523,
-    language: 'Python',
-    color: '#3776ab',
-    icon: Database,
-    features: [
-      'Data validation helpers',
-      'Transformation pipelines',
-      'Visualization utilities',
-      'Performance optimizations',
-    ],
+    name: 'personal_website',
+    description: 'This digital garden — built with care.',
+    longDescription: 'A place for writing about technology, craftsmanship, and the practice of building things that last. Inspired by the quiet web.',
+    tags: ['TypeScript', 'React', 'Web'],
+    githubUrl: 'https://github.com/Je0Dev/personal_website',
+    stars: 1,
+    language: 'TypeScript',
+    illustrationUrl: oldBookImages[5],
+    features: ['Markdown rendering', 'Dark theme', 'RSS feed'],
+    relatedTags: ['personal website', 'digital garden', 'indieweb'],
   },
 ];
 
 const Projects = () => {
   const headerRef = useRef<HTMLDivElement>(null);
-  const projectsRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [columns, setColumns] = useState(4);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(headerRef.current,
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out' }
-      );
-
-      const cards = projectsRef.current?.querySelectorAll('.project-card');
-      if (cards) {
-        gsap.fromTo(cards,
-          { y: 60, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: 'expo.out',
-            stagger: 0.1,
-            scrollTrigger: {
-              trigger: projectsRef.current,
-              start: 'top 80%',
-            },
-          }
-        );
-      }
-    });
-
-    return () => ctx.revert();
+    if (headerRef.current) {
+      headerRef.current.style.opacity = '1';
+    }
   }, []);
 
+  useEffect(() => {
+    const updateColumns = () => {
+      if (window.innerWidth < 640) setColumns(1);
+      else if (window.innerWidth < 768) setColumns(2);
+      else if (window.innerWidth < 1024) setColumns(3);
+      else setColumns(4);
+    };
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (selectedIndex === -1) return;
+
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setSelectedIndex(prev => Math.min(prev + 1, projects.length - 1));
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setSelectedIndex(prev => Math.max(prev - 1, 0));
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex(prev => Math.min(prev + columns, projects.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex(prev => Math.max(prev - columns, 0));
+    } else if (e.key === 'Enter' && projects[selectedIndex]) {
+      e.preventDefault();
+      window.open(projects[selectedIndex].githubUrl, '_blank', 'noopener,noreferrer');
+    } else if (e.key === 'Escape') {
+      setSelectedIndex(-1);
+    }
+  }, [selectedIndex, columns]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
+  useEffect(() => {
+    if (selectedIndex !== -1 && cardsRef.current) {
+      const card = cardsRef.current.children[selectedIndex] as HTMLElement;
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }, [selectedIndex]);
+
   return (
-    <div className="min-h-screen bg-tech-bg">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass-header">
-        <div className="px-6 lg:px-12 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-deep-olive">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-deep-olive/95 backdrop-blur-sm border-b border-moss">
+        <div className="max-w-wide mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link to="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2 text-earth-tan hover:text-cream transition-colors">
               <ArrowLeft className="w-5 h-5" />
               <span>Back</span>
             </Link>
           </div>
-          <Link to="/" className="font-mono text-lg font-bold hover:text-tech-cyan transition-colors">
-            &lt;ALEX/&gt;
+          <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="font-serif text-lg font-semibold text-cream hover:text-tomato transition-colors">
+            George
           </Link>
         </div>
       </nav>
 
-      {/* Header */}
-      <header ref={headerRef} className="pt-32 pb-16 px-6 lg:px-12">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-oswald text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            Open Source <span className="text-tech-cyan">Projects</span>
-          </h1>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            A collection of tools and libraries I've built to solve real-world problems. 
-            All projects are open source and available on GitHub.
-          </p>
+      <header ref={headerRef} className="pt-24 pb-8 px-6 opacity-0 transition-opacity duration-500">
+        <div className="max-w-wide mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-cream">
+              Open Source <span className="text-olive-light">Projects</span>
+            </h1>
+            <p className="font-sans text-base text-earth-tan max-w-2xl mx-auto">
+              A collection of tools built to <strong className="text-cream">learn</strong>, 
+              <strong className="text-cream"> experiment</strong>, and 
+              <strong className="text-cream"> solve problems</strong>. 
+              Each project is an exercise in <Link to="/tags/craftsmanship" className="text-olive-light hover:text-tomato">craftsmanship</Link>.
+            </p>
+            <p className="font-sans text-sm text-earth-muted mt-3">
+              Find me on <a href="https://github.com/Je0Dev" target="_blank" rel="noopener noreferrer" className="text-olive-light hover:text-tomato">GitHub</a> or 
+              browse by <Link to="/tags" className="text-olive-light hover:text-tomato">topic</Link>.
+            </p>
+          </div>
+          
+          <div className="illustration-container max-w-xl mx-auto">
+            <img 
+              src={oldBookImages[0]}
+              alt="Antique illustration from Old Book Illustrations"
+              className="w-full rounded-lg shadow-md"
+              loading="eager"
+            />
+            <p className="illustration-caption">Forging code, one project at a time</p>
+          </div>
         </div>
       </header>
 
-      {/* Projects Grid */}
-      <div ref={projectsRef} className="px-6 lg:px-12 pb-24">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className="project-card group p-6 bg-tech-surface rounded-2xl border border-tech-border hover:border-tech-cyan transition-all duration-300"
-            >
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div 
-                  className="w-12 h-12 rounded-xl flex items-center justify-center"
-                  style={{ background: `${project.color}20`, border: `1px solid ${project.color}40` }}
-                >
-                  <project.icon className="w-6 h-6" style={{ color: project.color }} />
-                </div>
-                <div className="flex items-center gap-3">
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors"
-                  >
-                    <Star className="w-4 h-4" />
-                    {project.stars.toLocaleString()}
-                  </a>
-                </div>
-              </div>
-
-              {/* Content */}
-              <h2 className="font-oswald text-xl font-bold mb-2 group-hover:text-tech-cyan transition-colors">
-                {project.name}
-              </h2>
-              <p className="text-gray-400 mb-4">{project.longDescription}</p>
-
-              {/* Features */}
-              <ul className="space-y-2 mb-6">
-                {project.features.map((feature, index) => (
-                  <li key={index} className="flex items-center gap-2 text-sm text-gray-500">
-                    <span className="w-1.5 h-1.5 rounded-full bg-tech-cyan" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {project.tags.map((tag) => (
-                  <Link
-                    key={tag}
-                    to={`/tags/${encodeURIComponent(tag)}`}
-                    className="px-3 py-1 bg-tech-bg border border-tech-border rounded-full text-xs hover:border-tech-cyan transition-colors"
-                  >
-                    {tag}
-                  </Link>
-                ))}
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-3">
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-tech-bg border border-tech-border rounded-lg hover:border-white transition-colors text-sm"
-                >
-                  <Github className="w-4 h-4" />
-                  View Code
-                </a>
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-tech-cyan text-black rounded-lg hover:shadow-glow transition-all text-sm font-medium"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    Live Demo
-                  </a>
-                )}
-              </div>
+      <div className="px-6 pb-16">
+        <div className="max-w-wide mx-auto">
+          <div className="flex items-center justify-between mb-4">
+            <p className="font-sans text-earth-muted text-sm">
+              {projects.length} projects
+            </p>
+            <div className="flex items-center gap-2 text-xs text-earth-muted font-mono">
+              <span className="flex items-center gap-1"><ArrowLeft className="w-3 h-3" /><ArrowRight className="w-3 h-3" /> navigate</span>
+              <span className="flex items-center gap-1"><ArrowUp className="w-3 h-3" /> up/down</span>
+              <span>↵ open</span>
             </div>
-          ))}
+          </div>
+          <div ref={cardsRef} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {projects.map((project, index) => (
+              <article 
+                key={project.id}
+                onMouseEnter={() => setSelectedIndex(index)}
+                onMouseLeave={() => setSelectedIndex(-1)}
+                className={`bg-deep-forest border rounded-lg overflow-hidden transition-all duration-200 ${
+                  selectedIndex === index 
+                    ? 'border-olive-light shadow-lg shadow-olive/10 scale-[1.02]' 
+                    : 'border-moss hover:border-earth-tan'
+                }`}
+              >
+                <div 
+                  className="aspect-[4/3] overflow-hidden bg-deep-olive cursor-pointer"
+                  onClick={() => window.open(project.githubUrl, '_blank', 'noopener,noreferrer')}
+                >
+                  <img
+                    src={project.illustrationUrl}
+                    alt={project.name}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+                
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h2 className="font-serif text-sm font-bold truncate mr-2">
+                      <a 
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-cream hover:text-tomato transition-colors underline-hover"
+                      >
+                        {project.name}
+                      </a>
+                    </h2>
+                    <div className="flex items-center gap-1 text-earth-muted text-xs flex-shrink-0">
+                      <Star className="w-3 h-3" />
+                      {project.stars}
+                    </div>
+                  </div>
+                  
+                  <p className="font-sans text-earth-tan text-xs mb-3">
+                    {project.description}
+                  </p>
+
+                  {project.longDescription && (
+                    <p className="font-sans text-earth-muted text-xs mb-3 line-clamp-2">
+                      {project.longDescription}
+                    </p>
+                  )}
+
+                  {project.features && project.features.length > 0 && (
+                    <div className="mb-3">
+                      <span className="text-xs text-earth-muted font-semibold">Features: </span>
+                      <span className="text-xs text-earth-tan">
+                        {project.features.join(' · ')}
+                      </span>
+                    </div>
+                  )}
+                  
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {project.tags.map((tag) => (
+                      <Link
+                        key={tag}
+                        to={`/tags/${encodeURIComponent(tag)}`}
+                        className="tag-pill text-[10px] px-1.5 py-0.5"
+                      >
+                        #{tag}
+                      </Link>
+                    ))}
+                  </div>
+
+                  {project.relatedTags && project.relatedTags.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-3 text-xs">
+                      <span className="text-earth-muted font-semibold">Related:</span>
+                      {project.relatedTags.map((tag, i) => (
+                        <span key={tag}>
+                          <Link
+                            to={`/tags/${encodeURIComponent(tag)}`}
+                            className="text-olive-light hover:text-tomato transition-colors"
+                          >
+                            {tag}
+                          </Link>
+                          {i < project.relatedTags!.length - 1 && <span className="text-earth-muted">·</span>}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  
+                  <div className="flex gap-2">
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-deep-olive border border-moss rounded text-xs text-earth-tan hover:bg-deep-sage hover:border-earth-tan transition-colors"
+                    >
+                      <Github className="w-3 h-3" />
+                      Source
+                    </a>
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 px-3 py-1.5 text-olive-light hover:text-tomato text-xs transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="px-6 lg:px-12 py-8 border-t border-tech-border">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Link to="/" className="font-mono text-lg font-bold hover:text-tech-cyan transition-colors">
-            &lt;ALEX/&gt;
+      <footer className="px-6 py-8 border-t border-moss">
+        <div className="max-w-wide mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="font-serif text-lg font-semibold text-cream hover:text-tomato transition-colors">
+            George
           </Link>
-          <div className="flex items-center gap-6 text-sm text-gray-500">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <Link to="/projects" className="hover:text-white transition-colors">Projects</Link>
-            <Link to="/tags" className="hover:text-white transition-colors">Tags</Link>
-            <Link to="/about" className="hover:text-white transition-colors">About</Link>
+          <div className="flex items-center gap-6 text-sm text-earth-tan">
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-cream transition-colors">Home</Link>
+            <Link to="/tags" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-cream transition-colors">Tags</Link>
+            <Link to="/projects" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-cream transition-colors">Projects</Link>
+            <Link to="/about" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-cream transition-colors">About</Link>
           </div>
         </div>
       </footer>

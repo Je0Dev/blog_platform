@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>George — A Digital Garden</title>
+    <link>https://geomas.dev</link>
+    <description>Thoughts on technology, craftsmanship, and building things that last.</description>
+    <language>en</language>
+    <lastBuildDate>Mon, 15 Mar 2026 12:00:00 GMT</lastBuildDate>
+    <atom:link href="https://geomas.dev/rss.xml" rel="self" type="application/rss+xml"/>
+    
+    <item>
+      <title>The Quiet Art of Building Things That Last</title>
+      <link>https://geomas.dev/blog/building-things-that-last</link>
+      <guid>https://geomas.dev/blog/building-things-that-last</guid>
+      <pubDate>Mon, 15 Mar 2026 12:00:00 GMT</pubDate>
+      <description>On craftsmanship, patience, and why the best software is written slowly.</description>
+      <category>Craftsmanship</category>
+      <category>Software Engineering</category>
+      <category>Philosophy</category>
+    </item>
+    
+    <item>
+      <title>Why I Keep a Personal Website</title>
+      <link>https://geomas.dev/blog/why-personal-website</link>
+      <guid>https://geomas.dev/blog/why-personal-website</guid>
+      <pubDate>Thu, 12 Mar 2026 12:00:00 GMT</pubDate>
+      <description>Against the algorithmic feed: the case for owning your own corner of the web.</description>
+      <category>Web</category>
+      <category>Philosophy</category>
+      <category>IndieWeb</category>
+    </item>
+    
+    <item>
+      <title>Notes on Learning Rust</title>
+      <link>https://geomas.dev/blog/notes-on-learning-rust</link>
+      <guid>https://geomas.dev/blog/notes-on-learning-rust</guid>
+      <pubDate>Tue, 10 Mar 2026 12:00:00 GMT</pubDate>
+      <description>My journey with a systems programming language that refuses to let you make mistakes.</description>
+      <category>Rust</category>
+      <category>Programming</category>
+      <category>Learning</category>
+    </item>
+    
+    <item>
+      <title>The Software I Use Every Day</title>
+      <link>https://geomas.dev/blog/software-i-use</link>
+      <guid>https://geomas.dev/blog/software-i-use</guid>
+      <pubDate>Mon, 08 Mar 2026 12:00:00 GMT</pubDate>
+      <description>A curated toolkit: the tools that have earned a permanent place in my workflow.</description>
+      <category>Tools</category>
+      <category>Productivity</category>
+      <category>Software</category>
+    </item>
+    
+    <item>
+      <title>On Writing Clean CLI Applications</title>
+      <link>https://geomas.dev/blog/writing-clean-cli</link>
+      <guid>https://geomas.dev/blog/writing-clean-cli</guid>
+      <pubDate>Fri, 06 Mar 2026 12:00:00 GMT</pubDate>
+      <description>Lessons from building command-line tools that developers actually want to use.</description>
+      <category>CLI</category>
+      <category>Software Engineering</category>
+      <category>Rust</category>
+    </item>
+    
+    <item>
+      <title>Understanding Git Internals</title>
+      <link>https://geomas.dev/blog/understanding-git</link>
+      <guid>https://geomas.dev/blog/understanding-git</guid>
+      <pubDate>Wed, 04 Mar 2026 12:00:00 GMT</pubDate>
+      <description>Peeling back the layers of the most popular version control system.</description>
+      <category>Git</category>
+      <category>Software Engineering</category>
+      <category>Internals</category>
+    </item>
+    
+    <item>
+      <title>Creating a DSP Audio Pipeline in Rust</title>
+      <link>https://geomas.dev/blog/dsp-audio-pipeline</link>
+      <guid>https://geomas.dev/blog/dsp-audio-pipeline</guid>
+      <pubDate>Mon, 02 Mar 2026 12:00:00 GMT</pubDate>
+      <description>Building a real-time audio processing chain with zero-copy buffer management.</description>
+      <category>Rust</category>
+      <category>Audio</category>
+      <category>DSP</category>
+      <category>Programming</category>
+    </item>
+    
+    <item>
+      <title>My Terminal Setup</title>
+      <link>https://geomas.dev/blog/terminal-setup</link>
+      <guid>https://geomas.dev/blog/terminal-setup</guid>
+      <pubDate>Thu, 27 Feb 2026 12:00:00 GMT</pubDate>
+      <description>Neovim, tmux, zsh, and the pursuit of the perfect terminal environment.</description>
+      <category>Tools</category>
+      <category>Terminal</category>
+      <category>Productivity</category>
+    </item>
+    
+    <item>
+      <title>Building a Static Site Generator</title>
+      <link>https://geomas.dev/blog/building-static-generator</link>
+      <guid>https://geomas.dev/blog/building-static-generator</guid>
+      <pubDate>Tue, 25 Feb 2026 12:00:00 GMT</pubDate>
+      <description>Creating a minimal SSG from scratch to understand the web stack better.</description>
+      <category>Web</category>
+      <category>Programming</category>
+      <category>Rust</category>
+    </item>
+    
+    <item>
+      <title>Notes on Working with Legacy Code</title>
+      <link>https://geomas.dev/blog/legacy-code</link>
+      <guid>https://geomas.dev/blog/legacy-code</guid>
+      <pubDate>Sat, 22 Feb 2026 12:00:00 GMT</pubDate>
+      <description>Strategies for navigating, understanding, and improving codebases that have grown organically.</description>
+      <category>Software Engineering</category>
+      <category>Best Practices</category>
+      <category>Legacy</category>
+    </item>
+    
+    <item>
+      <title>On Reading Technical Books</title>
+      <link>https://geomas.dev/blog/reading-technical-books</link>
+      <guid>https://geomas.dev/blog/reading-technical-books</guid>
+      <pubDate>Wed, 19 Feb 2026 12:00:00 GMT</pubDate>
+      <description>Why deep reading beats shallow tutorials, and how to get the most out of technical literature.</description>
+      <category>Learning</category>
+      <category>Books</category>
+      <category>Philosophy</category>
+    </item>
+    
+    <item>
+      <title>Custom Mechanical Keyboards</title>
+      <link>https://geomas.dev/blog/mechanical-keyboards</link>
+      <guid>https://geomas.dev/blog/mechanical-keyboards</guid>
+      <pubDate>Mon, 17 Feb 2026 12:00:00 GMT</pubDate>
+      <description>On the tactile joy of building your own keyboard and the quest for the perfect keystroke.</description>
+      <category>Hardware</category>
+      <category>Hobbies</category>
+      <category>Craftsmanship</category>
+    </item>
+    
+  </channel>
+</rss>

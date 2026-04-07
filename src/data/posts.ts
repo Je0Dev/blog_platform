@@ -16,6 +16,11 @@ export interface ProjectLink {
   description: string;
 }
 
+export interface GiphyEmbed {
+  title: string;
+  embedUrl: string;
+}
+
 export interface Post {
   id: string;
   title: string;
@@ -35,731 +40,643 @@ export interface Post {
   relatedPosts: RelatedPost[];
   externalLinks: ExternalLink[];
   projectLinks: ProjectLink[];
+  giphyEmbeds: GiphyEmbed[];
   tableOfContents: { id: string; title: string; level: number }[];
 }
 
 export const posts: Post[] = [
   {
     id: '1',
-    title: 'Mastering TypeScript Generics: A Deep Dive',
-    slug: 'mastering-typescript-generics',
-    excerpt: 'Unlock the full power of TypeScript with advanced generic patterns, conditional types, and type inference strategies.',
+    title: 'The Quiet Art of Building Things That Last',
+    slug: 'building-things-that-last',
+    excerpt: 'On craftsmanship, patience, and why the best software is written slowly.',
     content: `
-TypeScript generics are one of the most powerful features of the language, enabling you to write flexible, reusable code while maintaining type safety. In this comprehensive guide, we'll explore everything from basic generics to advanced patterns used in real-world applications.
+There is something deeply countercultural about building software with patience. The industry rewards speed — shipping fast, moving fast, breaking things. But the systems that endure are rarely the ones built in haste.
 
-## What Are Generics?
+## The Myth of the Quick Fix
 
-Generics allow you to create reusable components that can work with multiple types rather than a single one. Think of them as variables for types.
+Every project begins with good intentions. We tell ourselves this time will be different, this time we'll write the tests, document the decisions, leave the code cleaner than we found it. And then the deadline approaches.
 
-## Basic Generic Syntax
+The quick fix becomes the permanent solution. The temporary hack becomes the foundation. This is not a failure of engineering — it is a failure of imagination.
 
-The simplest form of a generic is a function that can accept any type:
+## Craftsmanship as Resistance
 
-\`\`\`typescript
-function identity<T>(arg: T): T {
-  return arg;
-}
+To write clean code in a world that demands speed is an act of quiet rebellion. It means:
 
-// Usage
-const num = identity<number>(42);
-const str = identity<string>("hello");
-\`\`\`
+- Saying no when yes would be easier
+- Writing the test when no one is watching
+- Refactoring the module that "works fine"
+- Documenting the decision when the sprint is already over
 
-## Generic Constraints
+These are not heroic acts. They are the daily practice of someone who respects their craft.
 
-Sometimes you want to constrain the types that can be used with your generic:
+## The Long Game
 
-\`\`\`typescript
-interface HasLength {
-  length: number;
-}
+The best code I've ever written was written slowly. Not because I was being careful, but because I was being thoughtful. There is a difference.
 
-function logLength<T extends HasLength>(arg: T): T {
-  console.log(arg.length);
-  return arg;
-}
-\`\`\`
+Thoughtful code considers the person who will read it next year. It anticipates the edge case that hasn't happened yet. It leaves room for the idea that we might be wrong.
 
-## Conditional Types
+## What Endures
 
-Conditional types allow you to create types that depend on a condition:
+Look at any long-lived codebase — the Linux kernel, PostgreSQL, Emacs — and you'll find a common thread: the people who maintained them cared more about getting it right than getting it done.
 
-\`\`\`typescript
-type IsString<T> = T extends string ? true : false;
-
-type A = IsString<string>;  // true
-type B = IsString<number>;  // false
-\`\`\`
-
-## Real-World Applications
-
-Generics are used extensively in popular libraries like React, Lodash, and RxJS. Understanding them deeply will make you a more effective TypeScript developer.
+That's the lesson. Not that speed is bad, but that slowness has its own kind of power.
     `,
-    date: 'Dec 15, 2024',
-    readTime: '8 min',
-    tags: ['TypeScript', 'JavaScript', 'Web Development'],
-    image: '/blog1.jpg',
-    color: '#3178c6',
+    date: 'Mar 15, 2026',
+    readTime: '7 min',
+    tags: ['Craftsmanship', 'Software Engineering', 'Philosophy'],
+    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/09/The-old-clockmaker-01.jpg',
+    color: '#8b5e3c',
     author: {
-      name: 'Alex Chen',
-      avatar: '/hero.jpg',
-      bio: 'Full-stack developer passionate about type systems and clean code.'
+      name: 'Geo Mas',
+      avatar: 'https://avatars.githubusercontent.com/u/217055154?s=120&v=4',
+      bio: 'Electrical and Computer Engineering student. Builder of things.'
     },
     relatedPosts: [
-      { id: '2', title: 'Building Real-time Apps with WebSockets', slug: 'building-realtime-apps-websockets' },
-      { id: '3', title: 'React Server Components Explained', slug: 'react-server-components-explained' },
+      { id: '2', title: 'Why I Keep a Personal Website', slug: 'why-personal-website' },
+      { id: '3', title: 'Notes on Learning Rust', slug: 'notes-on-learning-rust' },
     ],
     externalLinks: [
       { 
-        title: 'TypeScript Handbook - Generics', 
-        url: 'https://www.typescriptlang.org/docs/handbook/2/generics.html',
-        description: 'Official TypeScript documentation on generics'
+        title: 'The Pragmatic Programmer', 
+        url: 'https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/',
+        description: 'A foundational book on software craftsmanship'
       },
       { 
-        title: 'Advanced TypeScript Patterns', 
-        url: 'https://github.com/total-typescript/advanced-typescript-patterns',
-        description: 'GitHub repo with advanced TypeScript patterns'
+        title: 'A Philosophy of Software Design', 
+        url: 'https://www.amazon.com/Philosophy-Software-Design-John-Ousterhout/dp/1732102201',
+        description: 'John Ousterhout on managing complexity'
+      },
+      {
+        title: 'IndieWeb',
+        url: 'https://indieweb.org/',
+        description: 'A community of people building things on their own websites'
+      },
+      {
+        title: 'Maggie Appleton — Digital Garden',
+        url: 'https://maggieappleton.com/garden',
+        description: 'Beautifully crafted notes on programming and design'
       },
     ],
     projectLinks: [
       {
-        name: 'ts-pattern-matcher',
-        url: 'https://github.com/alex/ts-pattern-matcher',
-        description: 'A pattern matching library for TypeScript using generics'
+        name: 'esp32OffboardTimerSensor',
+        url: 'https://github.com/Je0Dev/esp32OffboardTimerSensor',
+        description: 'ESP32 offboard timer sensor — built with care, not speed'
+      },
+      {
+        name: 'personal_website',
+        url: 'https://github.com/Je0Dev/personal_website',
+        description: 'This very website, a work in progress'
+      },
+    ],
+    giphyEmbeds: [
+      {
+        title: 'A clockwork mechanism — patience in motion',
+        embedUrl: 'https://giphy.com/embed/xTiTnqUxyWbsAXq7Ju'
       },
     ],
     tableOfContents: [
-      { id: 'what-are-generics', title: 'What Are Generics?', level: 2 },
-      { id: 'basic-syntax', title: 'Basic Generic Syntax', level: 2 },
-      { id: 'constraints', title: 'Generic Constraints', level: 2 },
-      { id: 'conditional-types', title: 'Conditional Types', level: 2 },
-      { id: 'applications', title: 'Real-World Applications', level: 2 },
+      { id: 'myth-quick-fix', title: 'The Myth of the Quick Fix', level: 2 },
+      { id: 'craftsmanship', title: 'Craftsmanship as Resistance', level: 2 },
+      { id: 'long-game', title: 'The Long Game', level: 2 },
+      { id: 'what-endures', title: 'What Endures', level: 2 },
     ],
   },
   {
     id: '2',
-    title: 'Building Real-time Apps with WebSockets',
-    slug: 'building-realtime-apps-websockets',
-    excerpt: 'Learn how to implement bidirectional communication in your applications using WebSockets and Node.js.',
+    title: 'Why I Keep a Personal Website',
+    slug: 'why-personal-website',
+    excerpt: 'In an age of social media, owning your own corner of the internet matters more than ever.',
     content: `
-Real-time applications have become essential in modern web development. From chat applications to live dashboards, WebSockets provide the foundation for instant bidirectional communication.
+I didn't set out to build a personal website. It happened the way most good things happen — gradually, then all at once.
 
-## Understanding WebSockets
+## The Problem with Platforms
 
-WebSockets represent a significant advancement in web communication. Unlike HTTP's request-response model, WebSockets maintain a persistent connection that allows data to flow in both directions.
+Social media platforms are not your home. They are rented rooms where you can hang pictures on the wall, but the landlord can change the locks at any time. Algorithms shift. Accounts get suspended. Platforms die.
 
-## Setting Up a WebSocket Server
+Your own website is the one thing on the internet that is truly yours.
 
-Let's start with a simple Node.js server using the popular \`ws\` library:
+## What I've Learned
 
-\`\`\`javascript
-import { WebSocketServer } from 'ws';
+Keeping a personal website has taught me more about the web than any course or tutorial. Not because the technology is hard, but because it forces you to think about things that platforms abstract away:
 
-const wss = new WebSocketServer({ port: 8080 });
+- How do I want my words to look?
+- How should a reader navigate my thoughts?
+- What do I want to be remembered for?
 
-wss.on('connection', (ws) => {
-  console.log('New client connected');
-  
-  ws.on('message', (data) => {
-    console.log('Received:', data.toString());
-    // Broadcast to all clients
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(data);
-      }
-    });
-  });
-  
-  ws.on('close', () => {
-    console.log('Client disconnected');
-  });
-});
-\`\`\`
+These are design questions, but they're also philosophical ones.
 
-## Client-Side Implementation
+## The Joy of Small Things
 
-On the client side, the WebSocket API is built into modern browsers:
+My website will never have millions of visitors. It will never trend on any platform. And that is precisely the point.
 
-\`\`\`javascript
-const ws = new WebSocket('ws://localhost:8080');
+It exists for the same reason I keep a journal, or take photographs of old buildings, or write code that no one will ever see. Not for the audience. For the practice.
 
-ws.onopen = () => {
-  console.log('Connected to server');
-  ws.send('Hello from client!');
-};
+## A Digital Garden
 
-ws.onmessage = (event) => {
-  console.log('Received:', event.data);
-};
+I like the metaphor of a digital garden. Not a blog, not a portfolio — a garden. Some things are fully grown. Others are just seeds. A few are dead and waiting to be composted.
 
-ws.onerror = (error) => {
-  console.error('WebSocket error:', error);
-};
-\`\`\`
+The garden doesn't judge. It just grows.
 
-## Scaling WebSocket Applications
+## Start Small
 
-For production applications, you'll need to consider:
+If you don't have a personal website, start with one page. Write about something you care about. Link to things you find interesting. Let it grow slowly.
 
-- **Horizontal scaling**: Using Redis or similar for multi-server setups
-- **Connection management**: Heartbeats and reconnection strategies
-- **Security**: WSS (WebSocket Secure) and authentication
-- **Monitoring**: Connection metrics and error tracking
-
-## Use Cases
-
-WebSockets excel in scenarios requiring real-time updates:
-
-- Chat applications
-- Live collaboration tools
-- Real-time gaming
-- Financial tickers
-- IoT device monitoring
+The internet needs more small, careful websites. Yours could be one of them.
     `,
-    date: 'Dec 12, 2024',
-    readTime: '12 min',
-    tags: ['Node.js', 'JavaScript', 'WebSockets', 'Real-time'],
-    image: '/blog2.jpg',
-    color: '#339933',
+    date: 'Mar 8, 2026',
+    readTime: '5 min',
+    tags: ['IndieWeb', 'Personal Website', 'Digital Garden'],
+    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2016/03/The-garden-01.jpg',
+    color: '#6b8b5e',
     author: {
-      name: 'Alex Chen',
-      avatar: '/hero.jpg',
-      bio: 'Full-stack developer passionate about real-time systems.'
+      name: 'Geo Mas',
+      avatar: 'https://avatars.githubusercontent.com/u/217055154?s=120&v=4',
+      bio: 'Electrical and Computer Engineering student. Builder of things.'
     },
     relatedPosts: [
-      { id: '1', title: 'Mastering TypeScript Generics', slug: 'mastering-typescript-generics' },
-      { id: '4', title: 'Rust for JavaScript Developers', slug: 'rust-for-javascript-developers' },
+      { id: '1', title: 'The Quiet Art of Building Things That Last', slug: 'building-things-that-last' },
+      { id: '4', title: 'ESP32 and the Joy of Physical Computing', slug: 'esp32-physical-computing' },
     ],
     externalLinks: [
       { 
-        title: 'WebSocket API MDN', 
-        url: 'https://developer.mozilla.org/en-US/docs/Web/API/WebSocket',
-        description: 'MDN documentation for the WebSocket API'
+        title: 'IndieWeb Carnival', 
+        url: 'https://indieweb.org/IndieWeb_Carnival',
+        description: 'Monthly blogging event in the IndieWeb community'
       },
       { 
-        title: 'Socket.io Documentation', 
-        url: 'https://socket.io/docs/',
-        description: 'Popular WebSocket library with fallbacks'
+        title: 'Digital Gardens', 
+        url: 'https://maggieappleton.com/garden-history',
+        description: 'Maggie Appleton on the history of digital gardens'
+      },
+      {
+        title: 'fromjason.xyz',
+        url: 'https://www.fromjason.xyz/',
+        description: 'A wonderful digital garden by Jason Velazquez'
+      },
+      {
+        title: 'People and Blogs',
+        url: 'https://manuelmoreale.com/peopleandblogs',
+        description: 'Interviews with independent bloggers'
+      },
+      {
+        title: 'The Forest',
+        url: 'https://theforest.link',
+        description: 'A discovery tool for finding interesting blogs'
       },
     ],
     projectLinks: [
       {
-        name: 'chat-app-realtime',
-        url: 'https://github.com/alex/chat-app-realtime',
-        description: 'A real-time chat application built with WebSockets'
+        name: 'personal_website',
+        url: 'https://github.com/Je0Dev/personal_website',
+        description: 'My personal website — TypeScript, minimal and intentional'
+      },
+      {
+        name: 'lang_website',
+        url: 'https://github.com/Je0Dev/lang_website',
+        description: 'Another iteration on the personal site concept'
+      },
+    ],
+    giphyEmbeds: [
+      {
+        title: 'A quiet garden — growth at its own pace',
+        embedUrl: 'https://giphy.com/embed/l0HlBO7eyXzSZkJri'
       },
     ],
     tableOfContents: [
-      { id: 'understanding', title: 'Understanding WebSockets', level: 2 },
-      { id: 'server-setup', title: 'Setting Up a WebSocket Server', level: 2 },
-      { id: 'client-implementation', title: 'Client-Side Implementation', level: 2 },
-      { id: 'scaling', title: 'Scaling WebSocket Applications', level: 2 },
-      { id: 'use-cases', title: 'Use Cases', level: 2 },
+      { id: 'problem-platforms', title: 'The Problem with Platforms', level: 2 },
+      { id: 'what-learned', title: 'What I\'ve Learned', level: 2 },
+      { id: 'joy-small', title: 'The Joy of Small Things', level: 2 },
+      { id: 'digital-garden', title: 'A Digital Garden', level: 2 },
+      { id: 'start-small', title: 'Start Small', level: 2 },
     ],
   },
   {
     id: '3',
-    title: 'React Server Components Explained',
-    slug: 'react-server-components-explained',
-    excerpt: 'Understanding the future of React with Server Components and how they change the way we build applications.',
+    title: 'Notes on Learning Rust',
+    slug: 'notes-on-learning-rust',
+    excerpt: 'A JavaScript developer\'s honest account of learning Rust — the frustration, the breakthroughs, and why it\'s worth it.',
     content: `
-React Server Components (RSC) represent a paradigm shift in how we build React applications. They blur the line between server and client, offering new possibilities for performance and developer experience.
+I started learning Rust because everyone told me to. Not in so many words, but the message was clear: if you care about performance, safety, and the future of systems programming, you need to know Rust.
 
-## What Are Server Components?
+## The First Week
 
-Server Components are React components that render exclusively on the server. They never ship JavaScript to the client, resulting in zero client-side bundle size impact.
+The first week of learning Rust is humbling. You come from a language where you can just... do things. Want to mutate a variable? Sure. Want to pass a string to a function and keep using it afterwards? Go ahead.
 
-## Key Benefits
+Rust says no. Not because it's mean, but because it cares.
 
-### 1. Zero Bundle Size
-Server Components don't add to your JavaScript bundle. This means:
-- Faster initial page loads
-- Reduced memory usage on the client
-- Better performance on low-end devices
+## The Borrow Checker
 
-### 2. Direct Backend Access
-Server Components can directly access server-side resources:
-- Databases
-- File systems
-- Internal APIs
+The borrow checker is Rust's most famous feature and its most misunderstood. It's not a gatekeeper — it's a teacher. Every compilation error is a lesson in thinking about memory differently.
 
-\`\`\`jsx
-// This runs on the server only!
-async function BlogPosts() {
-  const posts = await db.posts.findAll(); // Direct database access
-  
-  return (
-    <div>
-      {posts.map(post => (
-        <PostCard key={post.id} post={post} />
-      ))}
-    </div>
-  );
-}
-\`\`\`
+The moment it clicks, you realize: the borrow checker wasn't preventing you from writing code. It was preventing you from writing bugs.
 
-### 3. Automatic Code Splitting
-Client Components imported by Server Components are automatically code-split.
+## What JavaScript Got Wrong
 
-## Server vs Client Components
+Learning Rust made me a better JavaScript developer. Not because I use Rust concepts in JavaScript, but because Rust forced me to think about things JavaScript lets me ignore:
 
-| Feature | Server Component | Client Component |
-|---------|------------------|------------------|
-| Render Location | Server only | Client (browser) |
-| JS Bundle | 0 bytes | Included |
-| useState/useEffect | ❌ | ✅ |
-| Browser APIs | ❌ | ✅ |
-| Backend Access | ✅ | ❌ |
+- Who owns this data?
+- When does this resource get freed?
+- What happens if two things try to modify this at the same time?
 
-## When to Use Each
+These questions exist in JavaScript too. JavaScript just lets the program crash instead of answering them.
 
-**Use Server Components for:**
-- Static content
-- Data fetching
-- Accessing backend resources
-- Large dependencies that shouldn't be client-side
+## Practical Rust
 
-**Use Client Components for:**
-- Interactive UI
-- Browser APIs
-- React hooks
-- Event handlers
+I'm not writing operating systems. I'm an electrical and computer engineering student who likes to build things. Rust has been useful for:
 
-## The Future of React
+- Embedded systems programming (ESP32)
+- Performance-critical data processing
+- Understanding how computers actually work
 
-Server Components are the foundation of frameworks like Next.js App Router and are shaping the future of React development.
+## The Verdict
+
+Rust is hard. Not because the syntax is complex, but because it asks you to think differently. And that's exactly why it's worth learning.
+
+Even if you never write Rust professionally, the way it trains you to think about code will make you better at every other language you use.
     `,
-    date: 'Dec 8, 2024',
-    readTime: '10 min',
-    tags: ['React', 'JavaScript', 'Server Components', 'Next.js'],
-    image: '/blog3.jpg',
-    color: '#61dafb',
-    author: {
-      name: 'Alex Chen',
-      avatar: '/hero.jpg',
-      bio: 'React enthusiast exploring the future of frontend development.'
-    },
-    relatedPosts: [
-      { id: '1', title: 'Mastering TypeScript Generics', slug: 'mastering-typescript-generics' },
-      { id: '5', title: 'Python for Data Analysis', slug: 'python-for-data-analysis' },
-    ],
-    externalLinks: [
-      { 
-        title: 'React Server Components RFC', 
-        url: 'https://github.com/reactjs/rfcs/blob/main/text/0188-server-components.md',
-        description: 'Official React RFC for Server Components'
-      },
-      { 
-        title: 'Next.js App Router', 
-        url: 'https://nextjs.org/docs/app',
-        description: 'Next.js documentation for App Router with RSC'
-      },
-    ],
-    projectLinks: [
-      {
-        name: 'nextjs-rsc-demo',
-        url: 'https://github.com/alex/nextjs-rsc-demo',
-        description: 'Demo application showcasing React Server Components'
-      },
-    ],
-    tableOfContents: [
-      { id: 'what-are-rsc', title: 'What Are Server Components?', level: 2 },
-      { id: 'benefits', title: 'Key Benefits', level: 2 },
-      { id: 'server-vs-client', title: 'Server vs Client Components', level: 2 },
-      { id: 'when-to-use', title: 'When to Use Each', level: 2 },
-      { id: 'future', title: 'The Future of React', level: 2 },
-    ],
-  },
-  {
-    id: '4',
-    title: 'Rust for JavaScript Developers',
-    slug: 'rust-for-javascript-developers',
-    excerpt: 'A comprehensive guide to Rust concepts for developers coming from JavaScript backgrounds.',
-    content: `
-Rust is gaining massive popularity in the web development ecosystem. From build tools to WebAssembly, learning Rust can significantly expand your capabilities as a developer.
-
-## Why Rust?
-
-Rust offers several advantages that appeal to JavaScript developers:
-
-- **Performance**: Near C/C++ speed without the memory safety issues
-- **Type Safety**: Compile-time guarantees that eliminate entire classes of bugs
-- **WebAssembly**: Write performance-critical code that runs in the browser
-- **Tooling**: Excellent package manager (Cargo) and build system
-
-## Variables and Mutability
-
-In JavaScript, variables are mutable by default:
-
-\`\`\`javascript
-let x = 5;
-x = 10; // No problem
-\`\`\`
-
-In Rust, variables are immutable by default:
-
-\`\`\`rust
-let x = 5;
-x = 10; // Error! Cannot assign twice to immutable variable
-
-let mut y = 5;
-y = 10; // OK - y is mutable
-\`\`\`
-
-## Ownership: Rust's Killer Feature
-
-Ownership is Rust's most unique feature. It enables memory safety without a garbage collector:
-
-\`\`\`rust
-fn main() {
-    let s1 = String::from("hello");
-    let s2 = s1; // s1's value is moved to s2
-    
-    // println!("{}", s1); // Error! s1 no longer valid
-    println!("{}", s2); // OK
-}
-\`\`\`
-
-## Pattern Matching
-
-Rust's pattern matching is incredibly powerful:
-
-\`\`\`rust
-enum Message {
-    Quit,
-    Move { x: i32, y: i32 },
-    Write(String),
-}
-
-fn handle_message(msg: Message) {
-    match msg {
-        Message::Quit => println!("Quitting"),
-        Message::Move { x, y } => println!("Moving to ({}, {})", x, y),
-        Message::Write(text) => println!("Text: {}", text),
-    }
-}
-\`\`\`
-
-## Building for the Web
-
-Rust shines in web development through WebAssembly:
-
-\`\`\`rust
-#[wasm_bindgen]
-pub fn fibonacci(n: u32) -> u32 {
-    match n {
-        0 => 0,
-        1 => 1,
-        _ => fibonacci(n - 1) + fibonacci(n - 2),
-    }
-}
-\`\`\`
-
-This compiles to WebAssembly and can be called from JavaScript with near-native performance.
-    `,
-    date: 'Dec 5, 2024',
-    readTime: '15 min',
-    tags: ['Rust', 'WebAssembly', 'Systems Programming'],
-    image: '/blog4.jpg',
+    date: 'Feb 28, 2026',
+    readTime: '9 min',
+    tags: ['Rust', 'Learning', 'Systems Programming'],
+    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/11/Anvil-and-forge-01.jpg',
     color: '#dea584',
     author: {
-      name: 'Alex Chen',
-      avatar: '/hero.jpg',
-      bio: 'Exploring systems programming and WebAssembly.'
+      name: 'Geo Mas',
+      avatar: 'https://avatars.githubusercontent.com/u/217055154?s=120&v=4',
+      bio: 'Electrical and Computer Engineering student. Builder of things.'
     },
     relatedPosts: [
-      { id: '2', title: 'Building Real-time Apps with WebSockets', slug: 'building-realtime-apps-websockets' },
-      { id: '6', title: 'Go Concurrency Patterns', slug: 'go-concurrency-patterns' },
+      { id: '1', title: 'The Quiet Art of Building Things That Last', slug: 'building-things-that-last' },
+      { id: '4', title: 'ESP32 and the Joy of Physical Computing', slug: 'esp32-physical-computing' },
     ],
     externalLinks: [
       { 
-        title: 'The Rust Book', 
+        title: 'The Rust Programming Language (The Book)', 
         url: 'https://doc.rust-lang.org/book/',
-        description: 'Official Rust programming language book'
+        description: 'The official Rust book — free online'
       },
       { 
         title: 'Rust by Example', 
         url: 'https://doc.rust-lang.org/rust-by-example/',
-        description: 'Learn Rust through practical examples'
+        description: 'Learn Rust through runnable examples'
+      },
+      {
+        title: 'Zero to Production in Rust',
+        url: 'https://www.zero2prod.com/',
+        description: 'A practical guide to building backend applications in Rust'
+      },
+      {
+        title: 'Rust for JavaScript Developers',
+        url: 'https://rustforjs.dev/',
+        description: 'A guide specifically for JS developers learning Rust'
       },
     ],
     projectLinks: [
       {
-        name: 'wasm-image-processor',
-        url: 'https://github.com/alex/wasm-image-processor',
-        description: 'High-performance image processing in Rust/WebAssembly'
+        name: 'cli_atm_system',
+        url: 'https://github.com/Je0Dev/cli_atm_system',
+        description: 'CLI ATM system in C — the predecessor to my Rust experiments'
+      },
+      {
+        name: 'cli_task_manager_system',
+        url: 'https://github.com/Je0Dev/cli_task_manager_system',
+        description: 'CLI task manager — another C project that would be better in Rust'
+      },
+    ],
+    giphyEmbeds: [
+      {
+        title: 'Forging metal — shaping something strong',
+        embedUrl: 'https://giphy.com/embed/3o7TKoWXm3okO1kgHC'
       },
     ],
     tableOfContents: [
-      { id: 'why-rust', title: 'Why Rust?', level: 2 },
-      { id: 'variables', title: 'Variables and Mutability', level: 2 },
-      { id: 'ownership', title: 'Ownership', level: 2 },
-      { id: 'pattern-matching', title: 'Pattern Matching', level: 2 },
-      { id: 'web', title: 'Building for the Web', level: 2 },
+      { id: 'first-week', title: 'The First Week', level: 2 },
+      { id: 'borrow-checker', title: 'The Borrow Checker', level: 2 },
+      { id: 'js-wrong', title: 'What JavaScript Got Wrong', level: 2 },
+      { id: 'practical-rust', title: 'Practical Rust', level: 2 },
+      { id: 'verdict', title: 'The Verdict', level: 2 },
+    ],
+  },
+  {
+    id: '4',
+    title: 'ESP32 and the Joy of Physical Computing',
+    slug: 'esp32-physical-computing',
+    excerpt: 'There is a special kind of satisfaction in writing code that makes something in the real world move, blink, or beep.',
+    content: `
+Software development is mostly abstract. We manipulate data structures that exist only in memory, building systems that serve HTTP requests or render pixels on a screen. It's satisfying work, but it's also distant from the physical world.
+
+Physical computing changes that.
+
+## The ESP32
+
+The ESP32 is a remarkable piece of hardware. For a few dollars, you get:
+
+- A dual-core processor
+- WiFi and Bluetooth
+- Dozens of GPIO pins
+- ADC, DAC, PWM, I2C, SPI — the whole alphabet
+
+It's the kind of chip that makes you want to build things just to see what it can do.
+
+## My First Project
+
+My first ESP32 project was an offboard timer sensor. Nothing glamorous. A sensor that reads data at regular intervals and sends it somewhere. But the moment I saw it working — the LED blinking, the data flowing — I felt something that pure software rarely gives me.
+
+The satisfaction of making a thing work in the real world.
+
+## What Hardware Teaches You
+
+Working with hardware teaches you things that software alone cannot:
+
+- **Patience**: Debugging a circuit is harder than debugging code
+- **Precision**: A loose wire can ruin hours of work
+- **Humility**: The computer does exactly what you tell it, not what you meant
+
+## The Sensor Project
+
+The offboard timer sensor I built reads environmental data and logs it. The code is simple — set up a timer, read the sensor, send the data. But the system as a whole is something I'm proud of because it exists in the world, not just on a screen.
+
+## Why It Matters
+
+We spend so much of our lives building things that are invisible. There's value in making something you can hold, something that interacts with the physical world, something that beeps when you want it to beep.
+
+That's the joy of physical computing.
+    `,
+    date: 'Feb 15, 2026',
+    readTime: '6 min',
+    tags: ['ESP32', 'Embedded', 'Hardware', 'IoT'],
+    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/09/Telegraph-instrument-01.jpg',
+    color: '#339933',
+    author: {
+      name: 'Geo Mas',
+      avatar: 'https://avatars.githubusercontent.com/u/217055154?s=120&v=4',
+      bio: 'Electrical and Computer Engineering student. Builder of things.'
+    },
+    relatedPosts: [
+      { id: '3', title: 'Notes on Learning Rust', slug: 'notes-on-learning-rust' },
+      { id: '5', title: 'The CLI Renaissance', slug: 'cli-renaissance' },
+    ],
+    externalLinks: [
+      { 
+        title: 'ESP32 Official Documentation', 
+        url: 'https://docs.espressif.com/projects/esp-idf/en/latest/esp32/',
+        description: 'Official ESP32 development framework documentation'
+      },
+      { 
+        title: 'PlatformIO', 
+        url: 'https://platformio.org/',
+        description: 'Professional collaborative platform for embedded development'
+      },
+      {
+        title: 'Making Things Talk',
+        url: 'https://makethingsbook.com/',
+        description: 'Tom Igoe\'s book on networked physical computing'
+      },
+      {
+        title: 'Adafruit Learning System',
+        url: 'https://learn.adafruit.com/',
+        description: 'Excellent tutorials for hardware projects'
+      },
+    ],
+    projectLinks: [
+      {
+        name: 'esp32OffboardTimerSensor',
+        url: 'https://github.com/Je0Dev/esp32OffboardTimerSensor',
+        description: 'ESP32 offboard timer sensor — my first real hardware project'
+      },
+    ],
+    giphyEmbeds: [
+      {
+        title: 'Circuitry — the poetry of electrons',
+        embedUrl: 'https://giphy.com/embed/l4FGIYByFBahEhyWk'
+      },
+    ],
+    tableOfContents: [
+      { id: 'esp32', title: 'The ESP32', level: 2 },
+      { id: 'first-project', title: 'My First Project', level: 2 },
+      { id: 'what-hardware-teaches', title: 'What Hardware Teaches You', level: 2 },
+      { id: 'sensor-project', title: 'The Sensor Project', level: 2 },
+      { id: 'why-matters', title: 'Why It Matters', level: 2 },
     ],
   },
   {
     id: '5',
-    title: 'Python for Data Analysis: Pandas Tips',
-    slug: 'python-for-data-analysis',
-    excerpt: 'Essential Pandas techniques to supercharge your data analysis workflow.',
+    title: 'The CLI Renaissance',
+    slug: 'cli-renaissance',
+    excerpt: 'Why command-line tools are having a moment and what they teach us about good software design.',
     content: `
-Pandas is the go-to library for data manipulation in Python. These tips will help you write more efficient and readable data analysis code.
+There was a time when every serious programmer started with the command line. Before IDEs, before frameworks, before the web — there was a terminal and a prompt and whatever you could build with your own hands.
 
-## Method Chaining
+## The Projects
 
-Instead of creating intermediate variables, chain methods together:
+I've built several CLI applications, each one teaching me something different about software:
 
-\`\`\`python
-# Instead of this
-df_filtered = df[df['age'] > 18]
-df_grouped = df_filtered.groupby('category')
-df_result = df_grouped['amount'].sum()
+- **CLI ATM System**: Banking logic, state management, input validation
+- **CLI Student Database**: File I/O, data structures, search algorithms
+- **CLI Task Manager**: CRUD operations, persistent storage, user experience
 
-# Do this
-result = (df
-    .query('age > 18')
-    .groupby('category')['amount']
-    .sum()
-)
-\`\`\`
+These aren't impressive projects on a resume. But they taught me more about programming than any tutorial.
 
-## Vectorized Operations
+## Why CLI Matters
 
-Avoid loops - use vectorized operations for better performance:
+Command-line tools force you to think about the essentials. There's no CSS to hide behind, no animations to distract the user. Just input, processing, output.
 
-\`\`\`python
-# Slow - iterating rows
-for idx, row in df.iterrows():
-    df.loc[idx, 'new_col'] = row['a'] + row['b']
+A good CLI tool is:
 
-# Fast - vectorized
-df['new_col'] = df['a'] + df['b']
-\`\`\`
+- **Fast**: No loading screens, no spinners
+- **Clear**: The output tells you exactly what happened
+- **Composable**: It can be piped to other tools
+- **Reliable**: It works the same way every time
 
-## Memory Optimization
+## The Unix Philosophy
 
-Large datasets can quickly consume memory. Use appropriate data types:
+The Unix philosophy — "do one thing and do it well" — is more relevant than ever. In a world of bloated applications, a tool that does one thing perfectly is a breath of fresh air.
 
-\`\`\`python
-# Check memory usage
-df.info(memory_usage='deep')
+## What I Learned
 
-# Optimize data types
-df['category'] = df['category'].astype('category')
-df['int_col'] = df['int_col'].astype('int32')  # Instead of int64
-\`\`\`
+Building CLI tools taught me:
 
-## Query Method
+1. **Error handling matters more than features**
+2. **Good output is a feature**
+3. **Simplicity is harder than complexity**
+4. **The user\'s time is more valuable than yours**
 
-The \`query\` method is often more readable than boolean indexing:
+## The Future
 
-\`\`\`python
-# Boolean indexing
-df[(df['age'] > 18) & (df['city'] == 'NYC')]
+CLI tools aren't going anywhere. They're evolving, getting better, becoming more beautiful. Tools like ripgrep, fd, and zoxide prove that command-line software can be both powerful and delightful.
 
-# Query method
-df.query('age > 18 and city == "NYC"')
-\`\`\`
-
-## Working with Time Series
-
-Pandas excels at time series analysis:
-
-\`\`\`python
-# Parse dates
-df['date'] = pd.to_datetime(df['date'])
-
-# Set as index
-df.set_index('date', inplace=True)
-
-# Resample to monthly
-monthly = df.resample('M').sum()
-\`\`\`
+The renaissance isn't about going back. It's about remembering what matters.
     `,
-    date: 'Dec 1, 2024',
-    readTime: '6 min',
-    tags: ['Python', 'Pandas', 'Data Science'],
-    image: '/blog5.jpg',
-    color: '#3776ab',
+    date: 'Feb 1, 2026',
+    readTime: '5 min',
+    tags: ['CLI', 'C', 'Unix', 'Software Design'],
+    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/09/Typewriter-01.jpg',
+    color: '#6b5540',
     author: {
-      name: 'Alex Chen',
-      avatar: '/hero.jpg',
-      bio: 'Data enthusiast and Python developer.'
+      name: 'Geo Mas',
+      avatar: 'https://avatars.githubusercontent.com/u/217055154?s=120&v=4',
+      bio: 'Electrical and Computer Engineering student. Builder of things.'
     },
     relatedPosts: [
-      { id: '3', title: 'React Server Components Explained', slug: 'react-server-components-explained' },
-      { id: '6', title: 'Go Concurrency Patterns', slug: 'go-concurrency-patterns' },
+      { id: '4', title: 'ESP32 and the Joy of Physical Computing', slug: 'esp32-physical-computing' },
+      { id: '1', title: 'The Quiet Art of Building Things That Last', slug: 'building-things-that-last' },
     ],
     externalLinks: [
       { 
-        title: 'Pandas Documentation', 
-        url: 'https://pandas.pydata.org/docs/',
-        description: 'Official Pandas documentation'
+        title: 'The Unix Programming Environment', 
+        url: 'https://www.amazon.com/Unix-Programming-Environment-Prentice-Hall-Software/dp/013937681X',
+        description: 'The classic book by Kernighan and Pike'
       },
       { 
-        title: 'Python Data Science Handbook', 
-        url: 'https://jakevdp.github.io/PythonDataScienceHandbook/',
-        description: 'Free online book on data science with Python'
+        title: 'ripgrep', 
+        url: 'https://github.com/BurntSushi/ripgrep',
+        description: 'A line-oriented search tool — CLI done right'
+      },
+      {
+        title: 'Command Line Interface Guidelines',
+        url: 'https://clig.dev/',
+        description: 'An open-source guide to building great CLIs'
+      },
+      {
+        title: 'The Art of Command Line',
+        url: 'https://github.com/jlevy/the-art-of-command-line',
+        description: 'Master the command line in one page'
       },
     ],
     projectLinks: [
       {
-        name: 'data-analysis-toolkit',
-        url: 'https://github.com/alex/data-analysis-toolkit',
-        description: 'Collection of Pandas utilities for data analysis'
+        name: 'cli_atm_system',
+        url: 'https://github.com/Je0Dev/cli_atm_system',
+        description: 'CLI ATM system in C — state management and validation'
+      },
+      {
+        name: 'cli_student_database_management_system',
+        url: 'https://github.com/Je0Dev/cli_student_database_management_system',
+        description: 'Student database with file I/O and search'
+      },
+      {
+        name: 'cli_task_manager_system',
+        url: 'https://github.com/Je0Dev/cli_task_manager_system',
+        description: 'Task manager with persistent storage'
+      },
+    ],
+    giphyEmbeds: [
+      {
+        title: 'Typing — the original interface',
+        embedUrl: 'https://giphy.com/embed/xUPGcl3ijl0vBhMkPm'
       },
     ],
     tableOfContents: [
-      { id: 'method-chaining', title: 'Method Chaining', level: 2 },
-      { id: 'vectorized', title: 'Vectorized Operations', level: 2 },
-      { id: 'memory', title: 'Memory Optimization', level: 2 },
-      { id: 'query', title: 'Query Method', level: 2 },
-      { id: 'time-series', title: 'Working with Time Series', level: 2 },
+      { id: 'projects', title: 'The Projects', level: 2 },
+      { id: 'why-cli', title: 'Why CLI Matters', level: 2 },
+      { id: 'unix-philosophy', title: 'The Unix Philosophy', level: 2 },
+      { id: 'what-learned', title: 'What I Learned', level: 2 },
+      { id: 'future', title: 'The Future', level: 2 },
     ],
   },
   {
     id: '6',
-    title: 'Go Concurrency Patterns You Should Know',
-    slug: 'go-concurrency-patterns',
-    excerpt: 'Master goroutines, channels, and common concurrency patterns in Go.',
+    title: 'On Keeping an IMDB Clone as a Learning Project',
+    slug: 'imdb-clone-learning',
+    excerpt: 'What building an IMDB clone taught me about data modeling, APIs, and the value of copying good design.',
     content: `
-Go's concurrency model based on goroutines and channels is one of its standout features. Let's explore the patterns that make Go concurrency both powerful and approachable.
+Clone projects get a bad reputation. "You're just copying someone else's idea," people say. But cloning is one of the best ways to learn.
 
-## Goroutines: Lightweight Threads
+## The IMDB Clone
 
-Goroutines are functions that run concurrently with other functions:
+I built an IMDB clone app in Java. Not because the world needed another movie database, but because IMDB is a well-understood problem with clear requirements:
 
-\`\`\`go
-func main() {
-    go sayHello()
-    go sayWorld()
-    
-    time.Sleep(time.Second) // Wait for goroutines
-}
+- Movies have actors, directors, genres
+- Users can rate and review
+- Search needs to be fast
+- Data relationships are complex but not impossible
 
-func sayHello() {
-    fmt.Println("Hello")
-}
+## What I Learned
 
-func sayWorld() {
-    fmt.Println("World")
-}
-\`\`\`
+### Data Modeling
 
-## Channels: Communication Between Goroutines
+IMDB's data model is deceptively complex. A movie can have hundreds of cast members. An actor can be in thousands of movies. Modeling these relationships properly taught me more about database design than any course.
 
-Channels are typed conduits for communication:
+### API Design
 
-\`\`\`go
-func main() {
-    messages := make(chan string)
-    
-    go func() {
-        messages <- "Hello from goroutine!"
-    }()
-    
-    msg := <-messages
-    fmt.Println(msg)
-}
-\`\`\`
+Building the API layer forced me to think about:
 
-## The Worker Pool Pattern
+- What data does the client actually need?
+- How do I avoid N+1 queries?
+- When should I paginate?
+- What does a good error response look like?
 
-A common pattern for managing concurrent work:
+### The Value of Constraints
 
-\`\`\`go
-func worker(id int, jobs <-chan int, results chan<- int) {
-    for j := range jobs {
-        fmt.Printf("Worker %d processing job %d\\n", id, j)
-        time.Sleep(time.Second)
-        results <- j * 2
-    }
-}
+Having a real product to copy was liberating. I didn't need to design the UI — I could focus on the architecture. I didn't need to invent features — I could focus on implementation quality.
 
-func main() {
-    jobs := make(chan int, 100)
-    results := make(chan int, 100)
-    
-    // Start 3 workers
-    for w := 1; w <= 3; w++ {
-        go worker(w, jobs, results)
-    }
-    
-    // Send 9 jobs
-    for j := 1; j <= 9; j++ {
-        jobs <- j
-    }
-    close(jobs)
-    
-    // Collect results
-    for a := 1; a <= 9; a++ {
-        <-results
-    }
-}
-\`\`\`
+## Copying Is Learning
 
-## Select Statement
+Every great artist started by copying. Every great writer started by imitating. Every great programmer started by building something that already existed.
 
-The select statement lets you wait on multiple channel operations:
+The clone isn't the destination. It's the path.
 
-\`\`\`go
-select {
-case msg1 := <-ch1:
-    fmt.Println("Received from ch1:", msg1)
-case msg2 := <-ch2:
-    fmt.Println("Received from ch2:", msg2)
-case <-time.After(time.Second):
-    fmt.Println("Timeout!")
-}
-\`\`\`
+## What\'s Next
 
-## Best Practices
+The IMDB clone taught me enough that I want to build more clones. Not to publish them, but to learn from them. Each one is a masterclass in a different kind of problem.
 
-1. **Don't communicate by sharing memory; share memory by communicating**
-2. **Close channels from the sender, not the receiver**
-3. **Use buffered channels when you know the capacity**
-4. **Always handle potential deadlocks**
+That's the secret: the project isn't the product. The learning is.
     `,
-    date: 'Nov 28, 2024',
-    readTime: '11 min',
-    tags: ['Go', 'Concurrency', 'Backend'],
-    image: '/blog6.jpg',
-    color: '#00add8',
+    date: 'Jan 18, 2026',
+    readTime: '6 min',
+    tags: ['Java', 'API Design', 'Data Modeling', 'Learning'],
+    image: 'https://www.oldbookillustrations.com/wp-content/uploads/2014/09/The-reading-01.jpg',
+    color: '#3b82f6',
     author: {
-      name: 'Alex Chen',
-      avatar: '/hero.jpg',
-      bio: 'Backend developer exploring Go and distributed systems.'
+      name: 'Geo Mas',
+      avatar: 'https://avatars.githubusercontent.com/u/217055154?s=120&v=4',
+      bio: 'Electrical and Computer Engineering student. Builder of things.'
     },
     relatedPosts: [
-      { id: '4', title: 'Rust for JavaScript Developers', slug: 'rust-for-javascript-developers' },
-      { id: '2', title: 'Building Real-time Apps with WebSockets', slug: 'building-realtime-apps-websockets' },
+      { id: '5', title: 'The CLI Renaissance', slug: 'cli-renaissance' },
+      { id: '3', title: 'Notes on Learning Rust', slug: 'notes-on-learning-rust' },
     ],
     externalLinks: [
       { 
-        title: 'Go Concurrency Patterns', 
-        url: 'https://go.dev/blog/pipelines',
-        description: 'Official Go blog on concurrency patterns'
+        title: 'Domain-Driven Design', 
+        url: 'https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215',
+        description: 'Eric Evans on modeling complex domains'
       },
       { 
-        title: 'Go by Example: Goroutines', 
-        url: 'https://gobyexample.com/goroutines',
-        description: 'Practical Go concurrency examples'
+        title: 'REST API Design Rulebook', 
+        url: 'https://www.amazon.com/REST-API-Design-Rulebook/dp/1449317901',
+        description: 'Practical guidelines for designing RESTful APIs'
+      },
+      {
+        title: 'The OMDb API',
+        url: 'http://www.omdbapi.com/',
+        description: 'A free RESTful web service to obtain movie information'
+      },
+      {
+        title: 'How to Design Programs',
+        url: 'https://htdp.org/',
+        description: 'A foundational approach to program design'
       },
     ],
     projectLinks: [
       {
-        name: 'go-worker-pool',
-        url: 'https://github.com/alex/go-worker-pool',
-        description: 'Flexible worker pool implementation in Go'
+        name: 'ImdbCloneApp',
+        url: 'https://github.com/Je0Dev/ImdbCloneApp',
+        description: 'IMDB clone in Java — data modeling and API design practice'
+      },
+    ],
+    giphyEmbeds: [
+      {
+        title: 'Reading — absorbing knowledge from those before us',
+        embedUrl: 'https://giphy.com/embed/l2JhOVy5NvBNmXqTu'
       },
     ],
     tableOfContents: [
-      { id: 'goroutines', title: 'Goroutines', level: 2 },
-      { id: 'channels', title: 'Channels', level: 2 },
-      { id: 'worker-pool', title: 'Worker Pool Pattern', level: 2 },
-      { id: 'select', title: 'Select Statement', level: 2 },
-      { id: 'best-practices', title: 'Best Practices', level: 2 },
+      { id: 'imdb-clone', title: 'The IMDB Clone', level: 2 },
+      { id: 'what-learned', title: 'What I Learned', level: 2 },
+      { id: 'copying-learning', title: 'Copying Is Learning', level: 2 },
+      { id: 'whats-next', title: 'What\'s Next', level: 2 },
     ],
   },
 ];

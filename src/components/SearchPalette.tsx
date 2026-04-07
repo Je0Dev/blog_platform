@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, FileText, Hash, Command } from 'lucide-react';
-import gsap from 'gsap';
+import { Search } from 'lucide-react';
 
 interface SearchItem {
   id: string;
   title: string;
-  type: 'post' | 'tag' | 'category';
+  type: 'post' | 'tag';
   url: string;
 }
 
@@ -20,23 +19,25 @@ const SearchPalette = ({ isOpen, onClose, items }: SearchPaletteProps) => {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const overlayRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const prevIsOpenRef = useRef(isOpen);
 
   const filteredItems = items.filter(item =>
     item.title.toLowerCase().includes(query.toLowerCase())
   );
 
+  const handleSelect = useCallback((item: SearchItem) => {
+    navigate(item.url);
+    onClose();
+  }, [navigate, onClose]);
+
   useEffect(() => {
-    if (isOpen) {
-      gsap.fromTo(overlayRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.2 }
-      );
+    if (isOpen && !prevIsOpenRef.current) {
       inputRef.current?.focus();
       setQuery('');
       setSelectedIndex(0);
     }
+    prevIsOpenRef.current = isOpen;
   }, [isOpen]);
 
   useEffect(() => {
@@ -68,28 +69,21 @@ const SearchPalette = ({ isOpen, onClose, items }: SearchPaletteProps) => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, filteredItems, selectedIndex, onClose]);
-
-  const handleSelect = useCallback((item: SearchItem) => {
-    navigate(item.url);
-    onClose();
-  }, [navigate, onClose]);
+  }, [isOpen, filteredItems, selectedIndex, onClose, handleSelect]);
 
   if (!isOpen) return null;
 
   return (
     <div 
-      ref={overlayRef}
-      className="search-overlay"
+      className="fixed inset-0 z-50 bg-deep-olive/95 backdrop-blur-sm"
       onClick={onClose}
     >
       <div 
-        className="search-box mx-4"
+        className="relative mx-4 sm:mx-6 lg:mx-8 max-w-md mt-20"
         onClick={e => e.stopPropagation()}
       >
-        {/* Search Input */}
-        <div className="flex items-center gap-3 px-4 border-b border-tech-border">
-          <Search className="w-5 h-5 text-gray-500" />
+        <div className="flex items-center gap-3 px-4 py-4 bg-deep-forest border border-moss rounded-lg">
+          <Search className="w-5 h-5 text-earth-muted" />
           <input
             ref={inputRef}
             type="text"
@@ -98,60 +92,60 @@ const SearchPalette = ({ isOpen, onClose, items }: SearchPaletteProps) => {
               setQuery(e.target.value);
               setSelectedIndex(0);
             }}
-            placeholder="Search posts, tags, or categories..."
-            className="search-input flex-1"
+            placeholder="Search writings or tags..."
+            className="flex-1 bg-transparent text-cream placeholder:text-earth-muted font-serif focus:outline-none"
           />
-          <div className="flex items-center gap-1 text-xs text-gray-500 font-mono">
-            <kbd className="px-2 py-1 bg-tech-surface rounded">ESC</kbd>
-            <span>to close</span>
+          <div className="flex items-center gap-1 text-xs text-earth-muted font-mono">
+            <kbd className="px-2 py-1 bg-deep-olive border border-moss rounded">ESC</kbd>
           </div>
         </div>
 
-        {/* Results */}
-        <div className="max-h-[400px] overflow-y-auto">
-          {filteredItems.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
-              <p className="font-mono text-sm">No results found for &quot;{query}&quot;</p>
+        {filteredItems.length === 0 ? (
+          <div className="mt-4 px-4 py-6 text-center text-earth-muted">
+            <p className="font-mono text-sm">No results found for "{query}"</p>
+          </div>
+        ) : (
+          <>
+            <div className="px-4 py-2 text-xs text-earth-muted font-mono uppercase tracking-wider">
+              {filteredItems.length} results
             </div>
-          ) : (
-            <>
-              <div className="px-4 py-2 text-xs text-gray-500 font-mono uppercase tracking-wider">
-                {filteredItems.length} results
-              </div>
+            <div className="max-h-[400px] overflow-y-auto space-y-1 bg-deep-forest border border-moss rounded-lg">
               {filteredItems.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`command-item ${index === selectedIndex ? 'active' : ''}`}
+                  className={`px-4 py-3 cursor-pointer hover:bg-deep-sage transition-colors ${index === selectedIndex ? 'bg-deep-sage' : ''}`}
                   onClick={() => handleSelect(item)}
                   onMouseEnter={() => setSelectedIndex(index)}
                 >
-                  {item.type === 'post' && <FileText className="w-4 h-4 text-tech-cyan" />}
-                  {item.type === 'tag' && <Hash className="w-4 h-4 text-tech-pink" />}
-                  {item.type === 'category' && <Command className="w-4 h-4 text-tech-green" />}
-                  <div className="flex-1">
-                    <p className="text-sm text-white">{item.title}</p>
-                    <p className="text-xs text-gray-500 capitalize">{item.type}</p>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 text-earth-muted">
+                      {item.type === 'post' && <span className="text-olive-light">•</span>}
+                      {item.type === 'tag' && <span className="text-olive-light">#</span>}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-serif text-sm text-cream">{item.title}</p>
+                      <p className="text-xs text-earth-muted font-mono capitalize">{item.type}</p>
+                    </div>
                   </div>
                   {index === selectedIndex && (
-                    <span className="text-xs text-tech-cyan font-mono">↵</span>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 w-1 h-5 bg-olive-light"></div>
                   )}
                 </div>
               ))}
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
 
-        {/* Footer */}
-        <div className="flex items-center justify-between px-4 py-2 border-t border-tech-border text-xs text-gray-500">
+        <div className="flex items-center justify-between px-4 py-2 text-xs text-earth-muted font-mono">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-tech-surface rounded">↑↓</kbd>
+            <div className="flex items-center gap-1">
+              <kbd className="px-1.5 py-0.5 bg-deep-forest border border-moss rounded">↑↓</kbd>
               to navigate
-            </span>
-            <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-tech-surface rounded">↵</kbd>
+            </div>
+            <div className="flex items-center gap-1">
+              <kbd className="px-1.5 py-0.5 bg-deep-forest border border-moss rounded">↵</kbd>
               to select
-            </span>
+            </div>
           </div>
         </div>
       </div>

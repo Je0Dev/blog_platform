@@ -1,301 +1,276 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  ArrowLeft, 
-  Github, 
-  Twitter, 
-  Linkedin, 
-  Mail,
-  MapPin,
-  Briefcase,
-  Code2,
-  Globe,
-  Heart
-} from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink } from 'lucide-react';
+import { LightboxTrigger } from '../components/Lightbox';
 import { posts } from '../data/posts';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const skills = [
-  { name: 'JavaScript/TypeScript', level: 95 },
-  { name: 'React/Next.js', level: 90 },
-  { name: 'Node.js', level: 85 },
-  { name: 'Python', level: 80 },
-  { name: 'Rust', level: 70 },
-  { name: 'Go', level: 65 },
-];
-
-const experiences = [
-  {
-    company: 'TechCorp',
-    role: 'Senior Full-Stack Developer',
-    period: '2022 - Present',
-    description: 'Leading development of scalable web applications using React, Node.js, and cloud technologies.',
-  },
-  {
-    company: 'StartupXYZ',
-    role: 'Full-Stack Developer',
-    period: '2020 - 2022',
-    description: 'Built real-time collaboration features and optimized application performance.',
-  },
-  {
-    company: 'Digital Agency',
-    role: 'Frontend Developer',
-    period: '2018 - 2020',
-    description: 'Developed responsive web applications for various clients.',
-  },
+const oldBookImages = [
+  'https://www.oldbookillustrations.com/site/assets/files/14298/perseus-gorgons.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/11021/fights-cymochles.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/9859/atin-cymochles.jpg',
+  'https://www.oldbookillustrations.com/site/assets/files/12863/reached-city.jpg',
 ];
 
 const About = () => {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-
   const totalArticles = posts.length;
   const totalReadTime = posts.reduce((acc, post) => {
     const minutes = parseInt(post.readTime);
     return acc + (isNaN(minutes) ? 0 : minutes);
   }, 0);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(headerRef.current,
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out' }
-      );
-
-      const sections = contentRef.current?.querySelectorAll('.about-section');
-      if (sections) {
-        gsap.fromTo(sections,
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            ease: 'expo.out',
-            stagger: 0.15,
-            scrollTrigger: {
-              trigger: contentRef.current,
-              start: 'top 80%',
-            },
-          }
-        );
-      }
-    });
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div className="min-h-screen bg-tech-bg">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass-header">
-        <div className="px-6 lg:px-12 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-              <span>Back</span>
-            </Link>
-          </div>
-          <Link to="/" className="font-mono text-lg font-bold hover:text-tech-cyan transition-colors">
-            &lt;ALEX/&gt;
-          </Link>
-        </div>
-      </nav>
-
-      {/* Header */}
-      <header ref={headerRef} className="pt-32 pb-16 px-6 lg:px-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
+    <section className="pt-20 pb-12">
+      <div className="max-w-prose mx-auto px-6">
+        <div className="flex flex-col items-center mb-16">
+          <div className="illustration-container w-40 h-40 mb-6">
             <img 
-              src="/hero.jpg" 
-              alt="Alex Chen"
-              className="w-32 h-32 rounded-full object-cover border-4 border-tech-cyan"
+              src={oldBookImages[3]}
+              alt="Portrait illustration"
+              className="w-full h-full object-cover rounded-full border-2 border-moss shadow-lg"
+              loading="eager"
             />
-            <div className="text-center md:text-left">
-              <h1 className="font-oswald text-4xl sm:text-5xl font-bold mb-2">
-                Alex Chen
-              </h1>
-              <p className="text-xl text-gray-400 mb-4">
-                Full-Stack Developer & Technical Writer
-              </p>
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-gray-500">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4" />
-                  San Francisco, CA
-                </div>
-                <div className="flex items-center gap-1">
-                  <Briefcase className="w-4 h-4" />
-                  Available for freelance
-                </div>
-              </div>
-            </div>
           </div>
-
-          {/* Social Links */}
-          <div className="flex items-center justify-center md:justify-start gap-3">
-            <a
-              href="https://github.com"
-              target="_blank"
+          <h1 className="font-serif text-3xl font-bold mb-2">
+            <span className="text-cream relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-olive-light after:transition-all after:duration-300 hover:after:w-full">
+              George
+            </span>
+          </h1>
+          <p className="font-sans text-earth-tan mb-2">
+            <span className="text-olive-light">Electrical & Computer Engineering</span> Student
+          </p>
+          <p className="font-sans text-earth-tan text-center max-w-prose mb-8">
+            <span className="text-tomato">Builder</span> of things. Exploring the intersection of 
+            <span className="text-olive-light">hardware</span> and <span className="text-olive-light">software</span>.
+            Currently studying at the{' '}
+            <a 
+              href="https://www.uop.gr/" 
+              target="_blank" 
               rel="noopener noreferrer"
-              className="p-3 bg-tech-surface border border-tech-border rounded-lg hover:border-tech-cyan transition-colors"
+              className="text-olive-light hover:text-tomato underline underline-offset-2 hover:underline-offset-4 transition-all duration-200"
             >
-              <Github className="w-5 h-5" />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-tech-surface border border-tech-border rounded-lg hover:border-tech-cyan transition-colors"
+              University of Peloponnese
+            </a>{' '}
+            in Greece.
+          </p>
+          
+          <div className="illustration-container max-w-md w-full mb-8">
+            <LightboxTrigger 
+              src={oldBookImages[0]}
+              alt="The pursuit of knowledge"
+              caption="The pursuit of knowledge"
             >
-              <Twitter className="w-5 h-5" />
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-tech-surface border border-tech-border rounded-lg hover:border-tech-cyan transition-colors"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a
-              href="mailto:hello@alex.dev"
-              className="p-3 bg-tech-surface border border-tech-border rounded-lg hover:border-tech-cyan transition-colors"
-            >
-              <Mail className="w-5 h-5" />
-            </a>
+              <img 
+                src={oldBookImages[0]}
+                alt="Antique illustration from Old Book Illustrations"
+                className="w-full rounded-lg shadow-md"
+                loading="eager"
+              />
+            </LightboxTrigger>
+            <p className="illustration-caption">The pursuit of knowledge</p>
           </div>
         </div>
-      </header>
-
-      {/* Content */}
-      <div ref={contentRef} className="px-6 lg:px-12 pb-24">
-        <div className="max-w-4xl mx-auto space-y-16">
-          {/* Bio */}
-          <section className="about-section">
-            <h2 className="font-oswald text-2xl font-bold mb-4 text-tech-cyan">About Me</h2>
-            <div className="prose prose-invert max-w-none">
-              <p className="text-gray-300 leading-relaxed mb-4">
-                I'm a full-stack developer with a passion for building scalable, performant applications 
-                and sharing knowledge with the developer community. With over 6 years of experience, 
-                I've worked on everything from real-time collaboration tools to high-traffic web applications.
+        
+        <div className="grid gap-8 md:grid-cols-3 text-center mb-16">
+          <div className="border border-moss rounded-lg p-6 hover:border-olive-light transition-colors">
+            <div className="font-serif text-3xl font-bold text-tomato mb-2">
+              {totalArticles}
+            </div>
+            <p className="font-sans text-earth-tan text-sm">Articles</p>
+          </div>
+          <div className="border border-moss rounded-lg p-6 hover:border-olive-light transition-colors">
+            <div className="font-serif text-3xl font-bold text-olive-light mb-2">
+              {totalReadTime}
+            </div>
+            <p className="font-sans text-earth-tan text-sm">Minutes Read</p>
+          </div>
+          <div className="border border-moss rounded-lg p-6 hover:border-olive-light transition-colors">
+            <div className="font-serif text-3xl font-bold text-cream mb-2">
+              6
+            </div>
+            <p className="font-sans text-earth-tan text-sm">Projects</p>
+          </div>
+        </div>
+        
+        <div className="illustration-container max-w-md w-full mx-auto mb-12">
+          <LightboxTrigger 
+            src={oldBookImages[1]}
+            alt="The journey of learning"
+            caption="The journey of learning"
+          >
+            <img 
+              src={oldBookImages[1]}
+              alt="Knight in combat"
+              className="w-full rounded-lg shadow-md"
+              loading="lazy"
+            />
+          </LightboxTrigger>
+          <p className="illustration-caption">The journey of learning</p>
+        </div>
+        
+        <div className="space-y-8">
+          <div>
+            <h2 className="font-serif text-2xl font-bold text-cream mb-4">
+              <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-olive-light after:transition-all after:duration-300 hover:after:w-full">
+                About
+              </span>
+            </h2>
+            <div className="space-y-4 text-earth-tan font-sans leading-relaxed">
+              <p>
+                Hello! I'm <span className="text-tomato font-semibold">George</span>, an <span className="text-olive-light">electrical and computer engineering</span> student with a passion 
+                for building things that bridge the gap between <span className="text-olive-light">hardware</span> and <span className="text-olive-light">software</span>.
               </p>
-              <p className="text-gray-300 leading-relaxed">
-                When I'm not coding, you'll find me writing technical articles, contributing to open source, 
-                or exploring new technologies. I believe in the power of clean code, thorough documentation, 
-                and continuous learning.
+              <p>
+                This website is my <span className="text-tomato">digital garden</span> — a place where I share thoughts on 
+                <span className="text-olive-light">technology</span>, <span className="text-olive-light">craftsmanship</span>, and the practice of making things that last.
+                It's inspired by the quiet web, by sites like{' '}
+                <a href="https://www.fromjason.xyz/" target="_blank" rel="noopener noreferrer" className="text-olive-light hover:text-tomato underline underline-offset-2 hover:underline-offset-4 transition-all duration-200">
+                  fromjason.xyz
+                </a>,{' '}
+                <a href="https://maggieappleton.com/" target="_blank" rel="noopener noreferrer" className="text-olive-light hover:text-tomato underline underline-offset-2 hover:underline-offset-4 transition-all duration-200">
+                  maggieappleton.com
+                </a>, and the <span className="text-olive-light">IndieWeb</span> community.
+              </p>
+              <p>
+                When I'm not coding, you'll find me exploring <span className="text-olive-light">embedded systems</span>, contributing 
+                to <span className="text-olive-light">open source</span>, or reading about the <span className="text-tomato">history of technology</span>.
               </p>
             </div>
-          </section>
-
-          {/* Stats */}
-          <section className="about-section">
-            <h2 className="font-oswald text-2xl font-bold mb-6 text-tech-cyan">Blog Stats</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="p-6 bg-tech-surface rounded-xl border border-tech-border text-center">
-                <Code2 className="w-6 h-6 text-tech-cyan mx-auto mb-2" />
-                <p className="font-oswald text-3xl font-bold">{totalArticles}</p>
-                <p className="text-sm text-gray-500">Articles</p>
-              </div>
-              <div className="p-6 bg-tech-surface rounded-xl border border-tech-border text-center">
-                <Globe className="w-6 h-6 text-tech-purple mx-auto mb-2" />
-                <p className="font-oswald text-3xl font-bold">{totalReadTime}</p>
-                <p className="text-sm text-gray-500">Minutes of Content</p>
-              </div>
-              <div className="p-6 bg-tech-surface rounded-xl border border-tech-border text-center">
-                <Heart className="w-6 h-6 text-tech-pink mx-auto mb-2" />
-                <p className="font-oswald text-3xl font-bold">10K+</p>
-                <p className="text-sm text-gray-500">Monthly Readers</p>
-              </div>
-              <div className="p-6 bg-tech-surface rounded-xl border border-tech-border text-center">
-                <Github className="w-6 h-6 text-tech-green mx-auto mb-2" />
-                <p className="font-oswald text-3xl font-bold">6</p>
-                <p className="text-sm text-gray-500">Open Source Projects</p>
-              </div>
-            </div>
-          </section>
-
-          {/* Skills */}
-          <section className="about-section">
-            <h2 className="font-oswald text-2xl font-bold mb-6 text-tech-cyan">Skills</h2>
-            <div className="space-y-4">
-              {skills.map((skill) => (
-                <div key={skill.name}>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm">{skill.name}</span>
-                    <span className="text-sm text-gray-500">{skill.level}%</span>
-                  </div>
-                  <div className="h-2 bg-tech-surface rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-tech-cyan to-tech-purple rounded-full transition-all duration-1000"
-                      style={{ width: `${skill.level}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Experience */}
-          <section className="about-section">
-            <h2 className="font-oswald text-2xl font-bold mb-6 text-tech-cyan">Experience</h2>
-            <div className="space-y-6">
-              {experiences.map((exp, index) => (
-                <div 
-                  key={index} 
-                  className="p-6 bg-tech-surface rounded-xl border border-tech-border"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
-                    <h3 className="font-bold text-lg">{exp.role}</h3>
-                    <span className="text-sm text-tech-cyan">{exp.period}</span>
-                  </div>
-                  <p className="text-gray-400 text-sm mb-2">{exp.company}</p>
-                  <p className="text-gray-500">{exp.description}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* CTA */}
-          <section className="about-section text-center py-8">
-            <h2 className="font-oswald text-2xl font-bold mb-4">Let's Work Together</h2>
-            <p className="text-gray-400 mb-6">
-              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          </div>
+          
+          <div>
+            <h2 className="font-serif text-2xl font-bold text-cream mb-4">
+              <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-olive-light after:transition-all after:duration-300 hover:after:w-full">
+                Elsewhere
+              </span>
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2">
               <a
-                href="mailto:hello@alex.dev"
-                className="px-8 py-3 bg-tech-cyan text-black font-medium rounded-lg hover:shadow-glow transition-all"
+                href="https://github.com/Je0Dev"
+                className="flex items-center gap-3 p-4 bg-deep-forest border border-moss rounded-lg hover:bg-deep-sage hover:border-earth-tan transition-colors group"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Get in Touch
+                <Github className="w-5 h-5 text-earth-muted group-hover:text-tomato transition-colors" />
+                <div>
+                  <p className="font-sans text-cream font-medium">
+                    <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-cream after:transition-all after:duration-300 group-hover:after:w-full">
+                      GitHub
+                    </span>
+                  </p>
+                  <p className="font-sans text-earth-muted text-sm">@Je0Dev</p>
+                </div>
+                <ExternalLink className="w-4 h-4 text-earth-muted ml-auto" />
               </a>
-              <Link
-                to="/projects"
-                className="px-8 py-3 border border-tech-border rounded-lg hover:border-tech-cyan transition-colors"
+              <a
+                href="https://www.linkedin.com/in/geomas/"
+                className="flex items-center gap-3 p-4 bg-deep-forest border border-moss rounded-lg hover:bg-deep-sage hover:border-earth-tan transition-colors group"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                View Projects
-              </Link>
+                <Linkedin className="w-5 h-5 text-earth-muted group-hover:text-tomato transition-colors" />
+                <div>
+                  <p className="font-sans text-cream font-medium">
+                    <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-cream after:transition-all after:duration-300 group-hover:after:w-full">
+                      LinkedIn
+                    </span>
+                  </p>
+                  <p className="font-sans text-earth-muted text-sm">George Mas</p>
+                </div>
+                <ExternalLink className="w-4 h-4 text-earth-muted ml-auto" />
+              </a>
+              <a
+                href="mailto:george@example.com"
+                className="flex items-center gap-3 p-4 bg-deep-forest border border-moss rounded-lg hover:bg-deep-sage hover:border-earth-tan transition-colors group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Mail className="w-5 h-5 text-earth-muted group-hover:text-tomato transition-colors" />
+                <div>
+                  <p className="font-sans text-cream font-medium">
+                    <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-cream after:transition-all after:duration-300 group-hover:after:w-full">
+                      Email
+                    </span>
+                  </p>
+                  <p className="font-sans text-earth-muted text-sm">Get in touch</p>
+                </div>
+                <ExternalLink className="w-4 h-4 text-earth-muted ml-auto" />
+              </a>
             </div>
-          </section>
+          </div>
+          
+          <div>
+            <h2 className="font-serif text-2xl font-bold text-cream mb-4">
+              <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-olive-light after:transition-all after:duration-300 hover:after:w-full">
+                Inspiration
+              </span>
+            </h2>
+            <p className="text-earth-tan font-sans mb-4 leading-relaxed">
+              This site takes inspiration from wonderful <span className="text-olive-light">personal websites</span> and <span className="text-tomato">digital gardens</span>:
+            </p>
+            <div className="space-y-3">
+              <a href="https://www.fromjason.xyz/" target="_blank" rel="noopener noreferrer" className="link-card flex items-center gap-3 hover:bg-deep-sage p-3 rounded-lg transition-colors">
+                <ExternalLink className="w-4 h-4 text-olive-light mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="link-card-title hover:text-tomato transition-colors">
+                    <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-olive-light after:transition-all after:duration-300 hover:after:w-full">
+                      fromjason.xyz
+                    </span>
+                  </p>
+                  <p className="link-card-desc">Jason Velazquez's digital garden</p>
+                </div>
+              </a>
+              <a href="https://maggieappleton.com/" target="_blank" rel="noopener noreferrer" className="link-card flex items-center gap-3 hover:bg-deep-sage p-3 rounded-lg transition-colors">
+                <ExternalLink className="w-4 h-4 text-olive-light mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="link-card-title hover:text-tomato transition-colors">
+                    <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-olive-light after:transition-all after:duration-300 hover:after:w-full">
+                      maggieappleton.com
+                    </span>
+                  </p>
+                  <p className="link-card-desc">Maggie Appleton's visual essays</p>
+                </div>
+              </a>
+              <a href="https://manuelmoreale.com/" target="_blank" rel="noopener noreferrer" className="link-card flex items-center gap-3 hover:bg-deep-sage p-3 rounded-lg transition-colors">
+                <ExternalLink className="w-4 h-4 text-olive-light mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="link-card-title hover:text-tomato transition-colors">
+                    <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-olive-light after:transition-all after:duration-300 hover:after:w-full">
+                      manuelmoreale.com
+                    </span>
+                  </p>
+                  <p className="link-card-desc">People and Blogs interviews</p>
+                </div>
+              </a>
+              <a href="https://www.oldbookillustrations.com/" target="_blank" rel="noopener noreferrer" className="link-card flex items-center gap-3 hover:bg-deep-sage p-3 rounded-lg transition-colors">
+                <ExternalLink className="w-4 h-4 text-olive-light mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="link-card-title hover:text-tomato transition-colors">
+                    <span className="relative inline-block after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-olive-light after:transition-all after:duration-300 hover:after:w-full">
+                      oldbookillustrations.com
+                    </span>
+                  </p>
+                  <p className="link-card-desc">Antique illustrations for the web</p>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <div className="illustration-container max-w-md w-full mx-auto">
+            <LightboxTrigger 
+              src={oldBookImages[2]}
+              alt="The Faerie Queene — adventure awaits"
+              caption="The Faerie Queene — adventure awaits"
+            >
+              <img 
+                src={oldBookImages[2]}
+                alt="From The Faerie Queene"
+                className="w-full rounded-lg shadow-md"
+                loading="lazy"
+              />
+            </LightboxTrigger>
+            <p className="illustration-caption">The Faerie Queene — adventure awaits</p>
+          </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="px-6 lg:px-12 py-8 border-t border-tech-border">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Link to="/" className="font-mono text-lg font-bold hover:text-tech-cyan transition-colors">
-            &lt;ALEX/&gt;
-          </Link>
-          <div className="flex items-center gap-6 text-sm text-gray-500">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <Link to="/projects" className="hover:text-white transition-colors">Projects</Link>
-            <Link to="/tags" className="hover:text-white transition-colors">Tags</Link>
-            <Link to="/about" className="hover:text-white transition-colors">About</Link>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </section>
   );
 };
 
