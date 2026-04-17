@@ -33,16 +33,41 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # This pulls your API key from GitHub Secrets during the build
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Create SPA fallback
+        run: |
+          cp dist/index.html dist/404.html
+          # Add redirect script to 404.html for SPA routing
+          cat > dist/404.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>Redirecting...</title>
+              <script>
+                var segment = location.pathname.split('/').filter(Boolean);
+                if (segment[0] === 'blog_platform') segment.shift();
+                var hash = segment.length ? '/' + segment.join('/') : '/';
+                if (location.search) hash += location.search;
+                location.replace('/blog_platform/' + hash);
+              </script>
+            </head>
+            <body>
+              <p>Redirecting to app...</p>
+            </body>
+          </html>
+          EOF
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          build_type: static
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Vite builds into the 'dist' folder
           path: './dist'
 
   deploy:
